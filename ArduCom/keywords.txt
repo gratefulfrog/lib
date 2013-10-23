@@ -1,0 +1,12 @@
+ArduCom	KEYWORD1
+doInit	KEYWORD2
+stepLoop	KEYWORD2
+msg	KEYWORD2
+ArduComSlave	KEYWORD1
+ArduComMaster	KEYWORD1
+enqueueMsg	KEYWORD2
+peekQ		KEYWORD2
+
+
+
+
