@@ -59,6 +59,10 @@ ArduCom::ArduCom(HardwareSerial *p,
   rFunc = f;
 }
 
+void ArduCom::clearIncoming(){
+  while (port->read() != -1);
+}
+
 ArduComSlave::ArduComSlave(HardwareSerial *p,
 			   ArduComResponseFunc f, 
 			   int mSz): ArduCom::ArduCom(p,f,mSz){

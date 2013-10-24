@@ -2,6 +2,9 @@ ArduCom	KEYWORD1
 doInit	KEYWORD2
 stepLoop	KEYWORD2
 msg	KEYWORD2
+msgSize	KEYWORD2
+responseSize	KEYWORD2
+clearIncoming	KEYWORD2
 ArduComSlave	KEYWORD1
 ArduComMaster	KEYWORD1
 enqueueMsg	KEYWORD2

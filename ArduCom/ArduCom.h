@@ -46,6 +46,7 @@ class ArduCom {
               responseSize;
   
     ArduCom(HardwareSerial *p,ArduComResponseFunc f, int mSz);
+    void clearIncoming();
     virtual void doInit() = 0;
     virtual void stepLoop() = 0;
 };
