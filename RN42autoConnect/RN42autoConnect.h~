@@ -1,0 +1,38 @@
+/* RN42autoConnect.h
+ * This class allows RN-42 bluetooth module to
+ * communicate via Serial1 on an Arduino Micro or Leonardo 
+ * Usage:
+ *  // global var:
+ *  RN42autoConnect *rn42;
+ *  // in std setup():
+ *  rn42 = new RN42autoConnect(&Serial1);
+ *  rn42->setupRN42AndConnect();
+ *  // rest of setup...
+ ***************
+ * RN42 behavoir:
+ * - power on: slow red blink
+ * - command mode: quick red blink, searching for a connection... needs up to 10 seconds!
+ * - connected: solid green
+ * - loss of connection: slow red blink
+ * - connection re-established (only with last connected RN42!): solid green 
+ */
+
+#ifndef RN42AUTOCONNECT_H
+#define RN42AUTOCONNECT_H
+
+#include <Arduino.h>
+
+class RN42autoConnect {
+ private:
+  boolean setupCommandMode();
+  void doConnect();
+  void clearRN42Output();
+  
+  HardwareSerial *port;
+
+public:
+  RN42autoConnect(HardwareSerial*);
+  void setupRN42AndConnect();
+ 
+};
+#endif
