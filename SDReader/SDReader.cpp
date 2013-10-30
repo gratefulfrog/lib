@@ -14,7 +14,6 @@ SDReader::SDReader(char *FileName, boolean sdBegun){
   if(!sdBegun){
     pinMode(SDPIN, OUTPUT); 
     SD.begin(SDPIN);
-    sdBegun = true;
   }
   f = SD.open(FileName);
 }

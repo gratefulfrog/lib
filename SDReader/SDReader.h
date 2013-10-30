@@ -86,7 +86,6 @@ class SDReader {
   protected:
     File f;
     void skipHeaderLine();
-    static boolean sdBegun;
   
   public:
     SDReader(char *FileName,boolean sdBegun = false);
