@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <SD.h>
 
-#include "SDReader.h"
+#include <SDReader.h>
 char pFile[] = "data.tsv",
      aFile[] = "cycle.tsv";
      
