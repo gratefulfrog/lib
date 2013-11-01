@@ -1,0 +1,5 @@
+biInc	KEYWORD1
+cycler	KEYWORD1
+getVal	KEYWORD2
+setVal	KEYWORD2
+inc	KEYWORD2

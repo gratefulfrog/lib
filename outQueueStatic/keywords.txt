@@ -1,0 +1,5 @@
+outQueueStatic	KEYWORD1
+enQ	KEYWORD2
+deQ	KEYWORD2
+pQ	KEYWORD2
+
