@@ -25,7 +25,7 @@ class outQueueStatic {
     outQueueStatic();
     boolean enQ(char *next);
     boolean deQ(char *buf);
-    boolean pQ(char *buf) const;  // peek the top elt of the queue!
+    boolean pQ(char *buf) const;  // peek the head of the queue!
 };
 
 #endif

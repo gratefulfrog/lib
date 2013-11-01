@@ -15,8 +15,8 @@
 
 #include <outQueue.h>
 
-#define NBTESTS  5
-#define MOTLIMIT 3
+#define NBTESTS  45
+#define MOTLIMIT 10
 
 outQueue *q;
 
@@ -59,6 +59,13 @@ void printAll(){
  }
 }
 
+int freeRam (){
+  extern int __heap_start, *__brkval;
+  int v;
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+}
+
+
 //////////////////////
 //// std functions ///
 //////////////////////
@@ -68,16 +75,26 @@ void setup(){
   while(!Serial);
   delay(5);
   Serial.println("test");
-  char s[] = "12345",
-       p[] = "abcde";
- q = new outQueue();
- for (int i=0;i<NBTESTS;i++){
-   q->enQ(p);
-   Serial.println("enqd p");
-   q->enQ(s);
-   Serial.println("enqd s");
- }
- printAll();
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+  q = new outQueue();
+  for (int i=0;i<NBTESTS;i++){
+    char ingoing[ELEN] = {'0','0','0','0','0'};
+    ingoing[ELEN-1] = 48+i%10;
+    ingoing[ELEN-2] = 48+(i/10) %10;
+    ingoing[ELEN-3] = 48+(i/100) %100;
+    q->enQ(ingoing);  
+    Serial.print("enqd: " );
+    for (int j=0;j<ELEN;j++){
+      Serial.write(ingoing[j]);
+    }
+    Serial.println();
+  }
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+  printAll();
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
 }
 
 void loop() {
@@ -90,9 +107,13 @@ void loop() {
     motCount++;
     printTop();
     printLast();
+    Serial.print("Free Ram: ");
+    Serial.println(freeRam());
   }
   if (motCount == MOTLIMIT){
     printAll();
+    Serial.print("Free Ram: ");
+    Serial.println(freeRam());
     motCount=0;
   }
 }

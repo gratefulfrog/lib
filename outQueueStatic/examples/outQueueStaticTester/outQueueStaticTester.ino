@@ -17,7 +17,7 @@
 #include <outQueueStatic.h>
 
 #define NBTESTS  45
-#define MOTLIMIT 3
+#define MOTLIMIT 10
 
 outQueueStatic q;
 
@@ -42,6 +42,11 @@ void printAll(){
     Serial.println(cc);
   }
 }
+int freeRam (){
+  extern int __heap_start, *__brkval;
+  int v;
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+}
 
 //////////////////////
 //// std functions ///
@@ -53,6 +58,8 @@ void setup(){
   while(!Serial);
   delay(5);
   Serial.println("test begins");
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
   for (int i=0;i<NBTESTS;i++){
     char ingoing[ELEN] = {'0','0','0','0','0'};
     ingoing[ELEN-1] = 48+i%10;
@@ -69,7 +76,11 @@ void setup(){
     }
     Serial.println();
   }
- printAll();
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+  printAll();
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
 }
 
 void loop() {
@@ -81,9 +92,13 @@ void loop() {
     incomingCount=0;
     motCount++;
     printTop();
+    Serial.print("Free Ram: ");
+    Serial.println(freeRam());
   }
   if (motCount == MOTLIMIT){
     printAll();
+    Serial.print("Free Ram: ");
+    Serial.println(freeRam());
     motCount=0;
   }
 }
