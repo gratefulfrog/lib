@@ -1,0 +1,15 @@
+ArduComOptStatic	KEYWORD1
+doInit	KEYWORD2
+stepLoop	KEYWORD2
+msgSize	KEYWORD2
+responseSize	KEYWORD2
+clearIncoming	KEYWORD2
+executeMsg	KEYWORD2
+ArduComOptStaticSlave	KEYWORD1
+ArduComOptStaticMaster	KEYWORD1
+enqueueMsg	KEYWORD2
+
+
+
+
+
