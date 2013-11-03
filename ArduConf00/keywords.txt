@@ -1,0 +1,13 @@
+ArduConf00	KEYWORD1
+msgLenNbSettings	KEYWORD2
+nbControls	KEYWORD2
+controlIDs	KEYWORD2
+wordLen	KEYWORD2
+neckI	KEYWORD2
+middleI	KEYWORD2
+bridgeI	KEYWORD2
+volI	KEYWORD2
+toneI	KEYWORD2
+getMsg	KEYWORD2
+
+
