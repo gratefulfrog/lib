@@ -1,5 +1,6 @@
 /* SD Reader library for ArduStomp
  * SD reader select pin MUST BE PIN 10 !!!
+
  */
 
 /*  This version parses the data and cycle files to create:
@@ -128,7 +129,6 @@ class AutoClass: public SDReader {
     struct autoStruct firstAuto;
     struct autoStruct *current;
     long lastAutoTime;
-    boolean _running;
     const PresetClass *p;
  
     byte presetIndex();
@@ -139,9 +139,8 @@ class AutoClass: public SDReader {
   public:
     AutoClass(char *autoFileName, const PresetClass *p);
     boolean parse();
-    boolean running() const;
+    boolean running;
     void start(boolean yes);
-    //int inc();
     byte check();  // returns the index of the preset that is current
 };
 

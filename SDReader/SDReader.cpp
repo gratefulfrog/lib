@@ -152,7 +152,7 @@ AutoClass::AutoClass(char *autoFileName, const PresetClass *ps):SDReader(autoFil
   firstAuto.next = NULL;
   current = &firstAuto;
   lastAutoTime = 0;
-  _running = false;
+  running = false;
 }
 
 byte AutoClass::presetIndex(){
@@ -196,11 +196,8 @@ boolean AutoClass::parse(){
   return true;
 }
 
-boolean AutoClass::running() const {
-  return _running;
-}
 void AutoClass::start(boolean yes = true){
-  _running = yes;
+  running = yes;
   current = &firstAuto;
   lastAutoTime = millis();
 }
