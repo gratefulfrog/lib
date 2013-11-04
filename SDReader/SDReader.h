@@ -1,6 +1,12 @@
 /* SD Reader library for ArduStomp
  * SD reader select pin MUST BE PIN 10 !!!
-
+ * 5v to  5V 
+ * 3.3v   not connected
+ * GND to GND
+ * CLK to pin 13 (UNO) or  CLK (Micro)
+ * DO to  pin 12 (UNO) or  MISO (Micro)
+ * DI to  pin 11 (UNO) or  MOSI (Micro)
+ * CS to  pin 10
  */
 
 /*  This version parses the data and cycle files to create:

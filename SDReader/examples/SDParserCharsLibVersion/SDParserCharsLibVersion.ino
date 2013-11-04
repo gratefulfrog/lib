@@ -22,6 +22,8 @@ void printPreset(byte i){
    
 void setup(){
   Serial.begin(115200);
+  while(!Serial);
+  delay(5000);
   p = new PresetClass(pFile);
   Serial.print("preset file id: ");
   Serial.println((int)p);
