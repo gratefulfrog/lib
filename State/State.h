@@ -32,6 +32,7 @@ class State {
     static void init();
     byte val;
     byte inc();
+    byte circularInc();
     byte dec();
     byte toggle();
 };

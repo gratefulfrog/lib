@@ -34,6 +34,9 @@ byte State::inc(){
 byte State::dec(){
   return val = (val == minVal ? minVal : val-incVal);
 }
+byte State::circularInc(){
+  return val = (val == maxVal ? minVal : val+incVal);
+}
 byte State::toggle(){
   return val = (val == minVal ? maxVal : minVal);
 }

@@ -2,6 +2,7 @@ State	KEYWORD1
 init	KEYWORD2
 val	KEYWORD2
 inc	KEYWORD2
+circularInc	KEYWORD2
 dec	KEYWORD2
 toggle	KEYWORD2
 neckState	KEYWORD2
