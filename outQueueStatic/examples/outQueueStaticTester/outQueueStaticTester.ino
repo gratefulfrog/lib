@@ -13,7 +13,7 @@
  * This should demonstrate the various possible things the q can do.
  */
 
-#include <cycler.h>
+#include <State.h>
 #include <outQueueStatic.h>
 
 #define NBTESTS  45

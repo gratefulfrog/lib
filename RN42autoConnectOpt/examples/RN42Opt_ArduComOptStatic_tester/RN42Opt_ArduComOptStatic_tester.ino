@@ -12,7 +12,7 @@
  */
 
 #include <Arduino.h>
-#include <cycler.h>
+#include <State.h>
 #include <outQueueStatic.h>
 #include <ArduComOptStatic.h>
 #include <RN42autoConnectOpt.h>

@@ -18,9 +18,10 @@ class State {
     static const byte minVal = 0,
                       incVal = 1;
     const byte maxVal;
-    State(byte maxV=1); // min is zero and start is zero
+
     
   public:
+    State(byte maxV=1); // min is zero and start is zero
     static State  *neckState,
       *middleState,
       *bridgeState,

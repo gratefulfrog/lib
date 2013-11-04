@@ -15,6 +15,7 @@ Actuator::Actuator(byte buttonPin,
 
 boolean Actuator::stdAction(){
   // temp for tests
+  
   return true;
 }
 
@@ -27,7 +28,8 @@ boolean Actuator::update(){
 }
 
 Actuator *Actuator::actuators[NB_ACTUATORS];
-void Actuator::init(){
+void Actuator::init(ArduStomp *ass){
+  as = ass;
   // neck actuator
   actuators[0] = new Actuator(N_PIN,  // button pin
 			      6, // led index
@@ -85,11 +87,11 @@ void Actuator::init(){
 			      &State::circularInc,
 			      &Actuator::stdAction);
   // auto actuator
-  actuators[8] = new Actuator(A_PIN,
-			      21, // led index
-			      1, // only 1 led
-			      State::autoState,
-			      &State::toggle,
-			      &Actuator::stdAction);  
+  actuators[AUTO_ACT] = new Actuator(A_PIN,
+				     21, // led index
+				     1, // only 1 led
+				     State::autoState,
+				     &State::toggle,
+				     &Actuator::stdAction);  
   lastActionTime = millis();
 }

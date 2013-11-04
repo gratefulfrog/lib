@@ -13,8 +13,8 @@ void outQueueStatic::setElt(byte index, char *val){
 }
 
 outQueueStatic::outQueueStatic(){
-  head = new cycler(QLEN-1);
-  tail = new cycler(QLEN-1);
+  head = new State(QLEN-1);
+  tail = new State(QLEN-1);
   eltCount = 0;
   for (byte i = 0;i<QLEN;i++){
     resetElt(i);
@@ -27,7 +27,7 @@ boolean outQueueStatic::enQ(char *next){
     return false; // and do nothing
   }
   eltCount++;
-  setElt(tail->getVal(),next);
+  setElt(tail->val,next);
   tail->inc();
   return true;
 }
@@ -40,10 +40,10 @@ boolean outQueueStatic::deQ(char *buf){
   }
   eltCount--;
   for (byte i = 0; i<ELEN;i++){
-    buf[i] = queue[head->getVal()][i];
+    buf[i] = queue[head->val][i];
   }
-  resetElt(head->getVal());
-  head->inc();
+  resetElt(head->val);
+  head->circularInc();
   return true;
 }
 
@@ -52,7 +52,7 @@ boolean  outQueueStatic::pQ(char* buf) const{
     return false;
   }
   for (byte i = 0; i<ELEN;i++){
-    buf[i] = queue[head->getVal()][i];
+    buf[i] = queue[head->val][i];
   }
   return true;
 }

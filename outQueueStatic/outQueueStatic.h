@@ -2,7 +2,7 @@
 #define OUTQUEUESTATIC_H
 
 #include <Arduino.h>
-#include <cycler.h>
+#include <State.h>
 
 /////////////////////////////////////
 // this is where the length of elements in the queue is defined!!
@@ -14,7 +14,7 @@
 class outQueueStatic {
   private:
     char queue[QLEN][ELEN]; 
-    cycler *head,
+    State *head,
            *tail; 
     byte eltCount;
 

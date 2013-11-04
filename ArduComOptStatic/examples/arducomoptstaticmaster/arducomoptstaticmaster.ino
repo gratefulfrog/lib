@@ -12,7 +12,7 @@
  * NOTE:  ArduComOptStatic DEBUG must be enabled by removing commented lines indicated by DEBUG
  */
 
-#include <cycler.h>
+#include <State.h>
 #include <outQueueStatic.h>
 #include <ArduComOptStatic.h>
 

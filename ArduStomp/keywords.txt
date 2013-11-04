@@ -1,0 +1,6 @@
+ArduStomp	KEYWORD1
+init	KEYWORD2
+autoOff	KEYWORD2
+loop	KEYWORD2
+
+

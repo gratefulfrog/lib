@@ -11,7 +11,7 @@
  * NOTE: the librairy outQueue.h must be included for this to work, I do not know why...
  */
 
-#include <cycler.h>
+#include <State.h>
 #include <outQueueStatic.h>
 #include <ArduComOptStatic.h>
 

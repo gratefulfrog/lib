@@ -9,9 +9,10 @@
 #include <Arduiono.h>
 #include <DebounceButton.h>
 #include <State.h>
-
+#include <ArduStomp.h>
 
 #define NB_ACTUATORS (9)
+#define AUTO_ACT (8)
 
 #define MIN_TIME_BETWEEN_BUTTON_PRESSES (100)
 
@@ -26,6 +27,7 @@
 #define A_PIN   (A0)
 
 class Actuator;
+class ArduStomp;
 
 typedef boolean (Actuator::*actionFunc)();
 typedef   byte (State::*stateFunc)();
@@ -50,7 +52,8 @@ private:
 
  public:
   static Actuator *actuators[NB_ACTUATORS];
-  void init();
+  static ArduStomp *as;
+  void init(ArduStomp *ass);
   boolean update();  // returns true if something has been done
 };
 #endif
