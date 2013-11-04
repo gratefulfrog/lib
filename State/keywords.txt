@@ -9,4 +9,6 @@ middleState	KEYWORD2
 bridgeState	KEYWORD2
 volState	KEYWORD2
 toneState	KEYWORD2
+presetsState	KEYWORD2
+autoState	KEYWORD2
 

@@ -5,7 +5,8 @@
 // BridgeState
 // VolState
 // ToneState
-
+// presetsState
+// autoState
 
 #ifndef STATECLASS_H
 #define STATECLASS_H
@@ -24,7 +25,10 @@ class State {
       *middleState,
       *bridgeState,
       *volState,
-      *toneState;
+      *toneState,
+      *presetsState,
+      *autoState;
+
     static void init();
     byte val;
     byte inc();

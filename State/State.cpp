@@ -5,6 +5,8 @@
 // BridgeState
 // VolState
 // ToneState
+// presetsState
+// autoState
 
 #include <State.h>
 
@@ -17,11 +19,14 @@ State *State::neckState,
   *State::toneState;
 
 void State::init(){
-  neckState   =  new State();
-  middleState =  new State();
-  bridgeState =  new State(2);
-  volState    =  new State(5);
-  toneState   =  new State(5);
+  neckState    =  new State();
+  middleState  =  new State();
+  bridgeState  =  new State(2);
+  volState     =  new State(5);
+  toneState    =  new State(5);
+  presetsState =  new State(4);
+  autoState    =  new State();
+
 }
 byte State::inc(){
   return val = (val == maxVal ? maxVal : val+incVal);
