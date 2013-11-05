@@ -30,8 +30,12 @@ const byte ArduConf00::msgLenNbSettings[][2] = {{AC_NECK_PINS,AC_NECK_SETTINGS},
 						{AC_VOL_PINS,AC_VOL_SETTINGS},  // vol  3 pins, 6 settings
 						{AC_TONE_PINS,AC_TONE_SETTINGS}}; // tone 1 pin, 6 settings
 const byte  ArduConf00::nbControls =  5,
-  ArduConf00::controlIDs[] = {0,1,2,3,4}; // neck, middle, bridge, vol, tone
-  
+  ArduConf00::controlIDs[] = {0,1,2,3,4}, // neck, middle, bridge, vol, tone
+  ArduConf00::presetFileToConfMap[] = { ArduConf00::volI, 
+					ArduConf00::toneI,
+					ArduConf00::neckI,
+					ArduConf00::middleI,
+					ArduConf00::bridgeI};
 
 void ArduConf00::b2a(byte pin, byte val, char *buf){
   // fill the buffer which must be the right length (5) with 

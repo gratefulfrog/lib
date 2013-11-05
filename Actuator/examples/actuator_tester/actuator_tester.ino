@@ -8,7 +8,7 @@
 #include <ArduStomp.h>
 #include <ArduComOptStatic.h>
 #include <RN42autoConnectOpt.h>
-
+#include <ArduConf00.h>
 
 
 int freeRam (){
@@ -20,6 +20,10 @@ int freeRam (){
 void setup(){
   Serial.begin(115200);
   while(!Serial);
+  Serial.print("Free RAM: ");
+  Serial.println(freeRam());
+  ArduStomp::init();
+  Actuator::init(ArduStomp::as);
   Serial.print("Free RAM: ");
   Serial.println(freeRam());
 }

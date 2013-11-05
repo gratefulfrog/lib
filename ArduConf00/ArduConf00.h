@@ -68,7 +68,7 @@ class ArduConf00 {
     toneSettings[]; //  =  {255, 90,46,27,17,  0};
     
   static const byte *pinPtr[] ; /* = {&neckPin,  // neck pin
-				  &middlePin, // middle pin
+				   &middlePin, // middle pin
 				  &bridgePins[0],  // first bridge pin
 				  &volPins[0],    // first vol pin
 				  &tonePin};      // tone pin
@@ -89,15 +89,17 @@ class ArduConf00 {
   static const byte  nbControls,
     controlIDs[]; // {0,1,2,3,4}; // neck, middle, bridge, vol, tone
 
-  static const byte wordLen = 5,
+  static const byte wordLen = 5, // a word is 5 chars, no terminator!
     neckI   = 0,
     middleI = 1,
     bridgeI = 2,
     volI    = 3,
-    toneI   = 4;  // a word is 5 chars, no terminator!
-    
+    toneI   = 4;  
+  
+  static const byte presetFileToConfMap[];
+
   static  void getMsg(byte id, byte val, char *buf);
-  //buf must be right lenght exactly;
+  // buf must be right lenght exactly;
   // id values come from controlIDs in this class
   // values are numerical integers (byte size) as follows
   // neck, middle : [0,1]

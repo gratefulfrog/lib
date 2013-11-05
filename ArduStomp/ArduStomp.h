@@ -15,6 +15,7 @@
 #include <SD.h>
 #include <SDReader.h>
 #include <Actuator.h>
+#include <LEDManager.h>
 
 // for led shift register shifting
 //Pin connected to latch pin (ST_CP) of 74HC595
@@ -26,23 +27,30 @@
 
 #define PFILE ("data.tsv")
 #define AFILE ("cycle.tsv")
+#define ALARM_PAUSE (1000)
 
+Class LEDManager;
 
 class ArduStomp {
 private:
-  ArduComOptStaticMaster *c;     
   PresetClass *p;
   AutoClass   *a;
+  LEDManager  *l;
   byte         curPresetIndex;  // as per SDReader
+  long         lastAlarmTime;
 
   ArduStomp(ArduComOptStaticMaster *cc,     
 	    PresetClass *pp,
 	    AutoClass   *aa);
+
 public:
+  static LEDManager *lm;
   static ArduStomp *as;
   static void init();
+  ArduComOptStaticMaster *com;     
+  void checkAuto();
   void autoOff();
-  void loop();
+  void stepAlarm();
 };
 
 #endif

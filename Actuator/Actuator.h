@@ -9,6 +9,7 @@
 #include <Arduiono.h>
 #include <DebounceButton.h>
 #include <State.h>
+#include <ArduConf00.h>
 #include <ArduStomp.h>
 
 #define NB_ACTUATORS (9)
@@ -41,19 +42,25 @@ private:
   State *s;
   const stateFunc sf; // inc, dec, or toggle
   const byte led0,
-    nbLeds;
+    nbLeds,
+    confI;
   Actuator(byte buttonPin, 
 	   byte l0,
 	   byte nbL,
+	   byte cI,
 	   State *sPtr,
 	   stateFunc sfPtr, 
 	   actionFunc afPtr);
   boolean stdAction();
+  boolean presetsAction();
+  boolean autoAction();
 
  public:
+  static boolean allOK;
   static Actuator *actuators[NB_ACTUATORS];
   static ArduStomp *as;
-  void init(ArduStomp *ass);
+  static void init(ArduStomp *ass);
+  static void doMsg(byte confID, byte val);
   boolean update();  // returns true if something has been done
 };
 #endif

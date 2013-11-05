@@ -16,7 +16,9 @@ State *State::neckState,
   *State::middleState,
   *State::bridgeState,
   *State::volState,
-  *State::toneState;
+  *State::toneState,
+  *State::presetsState,
+  *State::autoState;
 
 void State::init(){
   neckState    =  new State();

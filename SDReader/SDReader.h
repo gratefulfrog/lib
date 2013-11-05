@@ -110,11 +110,12 @@ class PresetClass: public SDReader {
   public:
     // use these keys to get values back
     const static byte volKey         = 0,
-                      toneKey        = 1,
-                      neckKey        = 2,
-                      middleKey      = 3,
-                      bridgeNorthKey = 4,
-                      bridgeBothKey  = 5;
+      toneKey        = 1,
+      neckKey        = 2,
+      middleKey      = 3,
+      bridgeNorthKey = 4,
+      bridgeBothKey  = 5,
+      nbKeys = 6;
                       
     PresetClass(char *presetsFileName);
     byte presetValue(byte presetIndex, byte key) const;

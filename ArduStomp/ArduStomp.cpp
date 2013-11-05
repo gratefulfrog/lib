@@ -6,17 +6,19 @@
 #include <ArduStomp.h>
 
 ArduStomp *ArduStomp::as;
+LEDManager *ArduStomp::lm;
 
 ArduStomp::ArduStomp(ArduComOptStaticMaster *cc,
 		     PresetClass *pp,
 		     AutoClass   *aa): 
-  c(cc),
+  com(cc),
   p(pp),
   a(aa){
   curPresetIndex = 0;
 }
 
 void ArduStomp::init(){
+  lm = new LEDManager();
   pinMode(LATCHPIN,OUTPUT);
   pinMode(CLOCKPIN,OUTPUT);
   pinMode(DATAPIN,OUTPUT);
@@ -42,16 +44,45 @@ void ArduStomp::init(){
     delete _a;
     _a = NULL;
   }
-  ArduStomp::as = new ArduStomp(_c,_p,_a);
+  as = new ArduStomp(_c,_p,_a);
+  as->doPreset()  
 }
 
+void ArduStomp::doPreset(){
+  if (p == NULL) {
+    return;
+  }
+  LEDManager::zeroAll();
+  for (byte key=0; b<SDReader::nbKeys-2;key++){ // not the bridge key
+    byte confVal = p->presetValue(curPresetIndex,key);
+    Actuator::doMsg(ArduConf00::presetFileToConfMap[key], confVal);
+    lm->set(LEDManager::Leds[ArduConf00::presetFileToConfMap[key]], confVal);
+  }
+  // now do the bridge:
+  byte bridgeConfVal = p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey) +
+    p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey);
+  Actuator::doMsg(ArduConf00::bridgeI, bridgeConfVal);
+  lm->set(LEDManager::Leds[ArduConf00::bridgeI], bridgeConfVal);
+}
+  
 
-void ArduStomp::loop(){
-  // tbd
+void ArduStomp::checkAuto(){
+  byte nextPreset =  a->check();
+  if (curPresetIndex != nextPreset){
+    curPresetIndex = nextPreset;
+    doPreset();
+  }
+}
+
+void ArduStomp::stepAlarm() {
+  lm->set(LEDManager::powerID,1);
+  delay(ALARM_PAUSE);
+  lm->set(LEDManager::powerID,0);
+  delay(ALARM_PAUSE);
 }
 
 void ArduStomp::autoOff(){
-  if (a && a->running()){
+  if (a && a->running){
     Actuator::actuators[AUTO_ACT]->update();
   }
 }
