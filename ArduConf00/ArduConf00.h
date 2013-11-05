@@ -51,44 +51,27 @@
 #define AC_TONE_SETTINGS (6)
 
 class ArduConf00 {
- private:
+private:
   static const byte nbPinsSetings[][2];
-
-  static const byte offOn[], // = {0,255},
-    neckPin,  // = 2,
-    middlePin, // = 3,
-    bridgePins[], // = {4,5},  // bridge, split
-    volPins[], //    = {9,10,12},
-    tonePin,  //      = 11,
-    bridgeSettings[][AC_BRIDGE_SETTINGS], /* = {{0, 255, 255}, // for bridge pins
-			    {0,   0, 255}} */
-    volSettings[][AC_VOL_SETTINGS], /* = {{0,  12,14,18,27,255},  // volPWM[0]-> volPins[0]
-			{255,30,20,15,13,  0},  // volPWM[1]-> volPins[1]
-			{0,   0, 0, 0, 0,255}}, // 3rd vactrol for max volume: volPWM[2]-> volPins[2] */
-    toneSettings[]; //  =  {255, 90,46,27,17,  0};
-    
-  static const byte *pinPtr[] ; /* = {&neckPin,  // neck pin
-				   &middlePin, // middle pin
-				  &bridgePins[0],  // first bridge pin
-				  &volPins[0],    // first vol pin
-				  &tonePin};      // tone pin
-				*/
-  static const byte *valPtr[] ; /* = { &offOn[0],  // values for neck start here
-				  &offOn[0],  // values for middle start here
-				  &bridgeSettings[0][0],  // values for bridge Pins start here
-				  &volSettings[0][0],  // values for vol pins start here
-				  &toneSettings[0]};  // values of tone settings
-			       */
+  static const byte offOn[], 
+    neckPin,  
+    middlePin, 
+    bridgePins[], 
+    volPins[],
+    tonePin,  
+    bridgeSettings[][AC_BRIDGE_SETTINGS],
+    volSettings[][AC_VOL_SETTINGS], 
+    toneSettings[];
+  
+  static const byte *pinPtr[] ; 
+  static const byte *valPtr[] ; 
   static void b2a(byte pin, byte val, char *buf);
-  // fill the buffer which must be the right length (5) with 
-  // the chars to make the message
-
- public:
+  
+public:
   static const byte msgLenNbSettings[][2];
-
   static const byte  nbControls,
-    controlIDs[]; // {0,1,2,3,4}; // neck, middle, bridge, vol, tone
-
+    controlIDs[]; 
+  
   static const byte wordLen = 5, // a word is 5 chars, no terminator!
     neckI   = 0,
     middleI = 1,
@@ -97,15 +80,7 @@ class ArduConf00 {
     toneI   = 4;  
   
   static const byte presetFileToConfMap[];
-
   static  void getMsg(byte id, byte val, char *buf);
-  // buf must be right lenght exactly;
-  // id values come from controlIDs in this class
-  // values are numerical integers (byte size) as follows
-  // neck, middle : [0,1]
-  // bridge       : [0, 1, 2]
-  // vol, tone    :  [0, 1, 2, 3, 4, 5]
-
 };
 
 #endif
