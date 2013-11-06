@@ -25,7 +25,7 @@
 #define M_PIN   (7)
 #define B_PIN   (8)
 #define P_PIN   (9)
-#define A_PIN   (A0)
+#define A_PIN   (11)    // CHANGED 2013 11 06 to fit new 16bit led array
 
 class Actuator;
 class ArduStomp;

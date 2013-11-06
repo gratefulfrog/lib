@@ -34,7 +34,7 @@ const byte ArduConf00::offOn[] = {0,255},
 				       {AC_TONE_PINS,AC_TONE_SETTINGS}}, // tone 1 pin, 6 settings
   ArduConf00::nbLeds[] = {1, // neck led
 			  1, // middle led
-			  2, // bridge leds  00 01 10
+			  2, // bridge leds  00 11 10 !! note vals don't work!
 			  3, // presets leds in binary !!!
 			  1, // auto led
 			  // end of first byte
