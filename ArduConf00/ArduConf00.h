@@ -32,7 +32,6 @@
                 // tone levels: [0,1,2,3,4,5]
  */
  
-
 #ifndef ARDUCONF00_H
 #define ARDUCONF00_H
 
@@ -50,10 +49,12 @@
 #define AC_VOL_SETTINGS (6)
 #define AC_TONE_SETTINGS (6)
 
+#define AC_NB_MAPS (5)
+
 class ArduConf00 {
 private:
-  static const byte nbPinsSetings[][2];
-  static const byte offOn[], 
+  static const byte nbPinsSetings[][2],
+    offOn[], 
     neckPin,  
     middlePin, 
     bridgePins[], 
@@ -61,26 +62,28 @@ private:
     tonePin,  
     bridgeSettings[][AC_BRIDGE_SETTINGS],
     volSettings[][AC_VOL_SETTINGS], 
-    toneSettings[];
-  
-  static const byte *pinPtr[] ; 
-  static const byte *valPtr[] ; 
+    toneSettings[],
+    IDMap[][3],
+    msgLenNbSettings[][2],
+    *pinPtr[],
+    *valPtr[],
+    wordLen = 5; // a word is 5 chars, no terminator!
   static void b2a(byte pin, byte val, char *buf);
+  static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
   
 public:
-  static const byte msgLenNbSettings[][2];
-  static const byte  nbControls,
-    controlIDs[]; 
-  
-  static const byte wordLen = 5, // a word is 5 chars, no terminator!
-    neckI   = 0,
-    middleI = 1,
-    bridgeI = 2,
-    volI    = 3,
-    toneI   = 4;  
-  
-  static const byte presetFileToConfMap[];
-  static  void getMsg(byte id, byte val, char *buf);
+  static const byte nbLeds[], // nb of leds for the id in index
+    neckID = 0,
+    middleID  = 1,
+    bridgeID  = 2,
+    presetID  = 3,
+    autoID    = 4,
+    volID     = 5,
+    toneID    = 6,
+    powerID   = 7,
+    connectID = 8;
+  static byte bufLenNbSettings(byte extID, boolean settings = false);
+  static void getMsg(byte extID, byte val, char *buf);
 };
 
 #endif

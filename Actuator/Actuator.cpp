@@ -6,12 +6,10 @@ boolean Actuator::allOK;
 
 Actuator::Actuator(byte buttonPin, 
 		   byte l0,
-		   byte nbL,
 		   byte cI,
 		   State *sPtr,
 		   stateFunc sfPtr, 
 		   actionFunc afPtr): led0(l0),
-				      nbLeds(nbL),
 				      confI(cI),
 				      s(sPtr),
 				      sf(sfPtr),
@@ -29,12 +27,15 @@ void Actuator::doMsg(byte confID, byte val){
   }
 }
   
+
+// FIX IDs !!
 boolean Actuator::stdAction(){
   if (db->pressed()){
     byte curState = s->val,
       nextState =  (s->*sf)();
     if (curState != nextState){
       doMsg(confI, nextState);
+      LEDManager::set()
       return true;
     }
   }
@@ -62,7 +63,6 @@ void Actuator::init(ArduStomp *ass){
   // neck actuator
   actuators[0] = new Actuator(N_PIN,  // button pin
 			      6, // led index
-			      1, //  1 led
 			      ArduConf00::neckI,
 			      State::neckState,
 			      &State::toggle,
@@ -86,7 +86,7 @@ void Actuator::init(ArduStomp *ass){
   // vol UP actuator
   actuators[3] = new Actuator(VUP_PIN, // button pin
 			      1, // led index
-			      5, // 5 led
+			      3, //  led
 			      ArduConf00::volI,
 			      State::volState,
 			      &State::inc,

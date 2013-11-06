@@ -7,25 +7,6 @@
 
 unsigned int LEDManager::ledArray = 0;
 
-const byte LEDManager::confToLedID[] = {neckID,
-					middleID,
-					bridgeID,
-					volID,
-					toneID};
-  
-const byte LEDManager::nbLeds[] =
-  {1, // neck led
-   1, // middle led
-   2, // bridge leds  00 01 10
-   3, // presets leds in binary !!!
-   1, // auto led
-   // end of first byte
-   3, // vol leds in binary !!!
-   3, // tone leds in binary !!!
-   1, // power led
-   1}; // connect led
-   // end of second byte!
-
 // This method sends bits to the shift registers:
 void LEDManager::registerWrite() {
   // turn off the output so the leds don't light up
@@ -44,7 +25,9 @@ void LEDManager::registerWrite() {
 
 byte LEDManager::leftShift(byte ledID) {
   byte ret = 0;
-  for (byte b = 0; b<ledID;b++,ret+= nbLeds[b]);
+  for (byte b = 0; b<ledID;b++){
+    ret+= ArduConf00::nbLeds[b];
+  }
   return ret;
 }
 
@@ -61,69 +44,27 @@ void LEDManager::zeroAll(){
 }
 
 void LEDManager::set(byte confID, byte val){
-  LEDManager::localSet(LEDManager::confToLedID[confID],val);
-}
-
-void LEDManager::localSet(byte ledID, byte val){
+  /*
+    Serial.print("\tConfID:\t");
+    Serial.print(confID);
+    Serial.print("\tval:\t");
+    Serial.print(val);
+    Serial.print("\tnbLeds:\t");
+    Serial.print(ArduConf00::nbLeds[confID]);
+    Serial.print("\tleftShift:\t");
+    Serial.print(leftShift(confID));
+  */
   // first clear the bits concerned
-  unsigned int mask = ((byte)(pow(2,nbLeds[ledID])-1)) << leftShift(ledID);
+  unsigned int mask = (unsigned int)((1<<ArduConf00::nbLeds[confID])-1) << (unsigned int)leftShift(confID);
+  /*
+    Serial.print("\tunshiftedMask:\t");
+    Serial.print((unsigned int)((1<<ArduConf00::nbLeds[confID])-1));
+    Serial.print("\tMask:\t");
+    Serial.print(mask);
+  */
   LEDManager::ledArray &= ~mask;
   // now or the val in
-  mask = val << leftShift(ledID);
+  mask = val << leftShift(confID);
   LEDManager::ledArray |= mask;
   LEDManager::registerWrite();
 }
-
-/*
-// This method sends bits to the shift registers:
-void OLDregisterWrite() {
-  // turn off the output so the leds don't light up
-  // while you're shifting bits:
-  digitalWrite(latchPin, LOW);
-
-  byte outgoing[] = {0,0,0};
-  for (int i =0;i<24;i++){
-    if (leds[i]){
-      outgoing[int(i/8)] |= 1 <<(7 - (i%8));
-    }
-  }
-
-  //Serial.println("outgoing[0] = " + String(outgoing[0]));
-  //Serial.println("outgoing[1] = " + String(outgoing[1]));  
-  //Serial.println("outgoing[2] = " + String(outgoing[2]));  
-  
-  for (int i = 2;i>-1 ;i--){
-    shiftOut(dataPin, clockPin, LSBFIRST, outgoing[i]);
-  }
-  // turn on the output so the LEDs can light up:
-  digitalWrite(latchPin, HIGH);
-}
-
-
-const int ledArraySize =24;
-boolean leds[ledArraySize];
-
-// these pairs say the LED starting index and how many there are in the button control group
-const byte volLedIndex[2] = {1,5},   //{1,3}   
-  neckLedIndex[2] = {6,1},           //{4,1}
-  middleLedIndex[2] = {7,1},         //{5,
-  toneLedIndex[2] = {9,5},   
-  bridgeLedIndex[2] = {14,2},   
-  presetLedIndex[2] = {17,4},   
-  autoLedIndex[2] = {21,1},   
-  powerLedIndex[2] = {22,1},   
-  connectLedIndex[2] = {23,1};
-
-const int *indexLis[] = {  volLedIndex,
-                           neckLedIndex,
-                           middleLedIndex,
-                           toneLedIndex,
-                           bridgeLedIndex,  
-                           presetLedIndex,
-                           autoLedIndex,
-                           powerLedIndex,  
-                           connectLedIndex};
-
-
-
-*/
