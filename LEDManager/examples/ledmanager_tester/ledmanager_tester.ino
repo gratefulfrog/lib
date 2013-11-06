@@ -1,5 +1,6 @@
 #include <LEDManager.h>
 #include <ArduConf00.h>
+#include <SPI.h>
 
 void setup(){
   LEDManager::init();

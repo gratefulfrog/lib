@@ -12,12 +12,18 @@ void LEDManager::registerWrite() {
   // turn off the output so the leds don't light up
   // while you're shifting bits:
   digitalWrite(LATCHPIN, LOW);
-
-  //Serial.println("outgoing[0] = " + String((byte)(LEDManager::ledArray >> 8)));
-  //Serial.println("outgoing[1] = " + String((byte)(LEDManager::ledArray & 0B11111111)));  
-  
-  shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, (byte)(LEDManager::ledArray >> 8));
-  shiftOut(DATAPIN, CLOCKPIN, LSBFIRST, (byte)(LEDManager::ledArray & 0B11111111));
+  /*
+  shiftOut(DATAPIN, 
+           CLOCKPIN, 
+	   LSBFIRST, 
+	   (byte)(LEDManager::ledArray >> 8));
+  shiftOut(DATAPIN, 
+           CLOCKPIN, 
+	   LSBFIRST, 
+	   (byte)(LEDManager::ledArray & 0B11111111));
+  */
+  SPI.transfer((byte)(LEDManager::ledArray >> 8));
+  SPI.transfer((byte)(LEDManager::ledArray & 0B11111111));
   
   // turn on the output so the LEDs can light up:
   digitalWrite(LATCHPIN, HIGH);
@@ -33,8 +39,13 @@ byte LEDManager::leftShift(byte ledID) {
 
 void LEDManager::init(){
   pinMode(LATCHPIN, OUTPUT);
-  pinMode(DATAPIN, OUTPUT);  
-  pinMode(CLOCKPIN, OUTPUT);
+  /*
+    pinMode(DATAPIN, OUTPUT);  
+    pinMode(CLOCKPIN, OUTPUT);
+  */
+  SPI.begin();
+  SPI.setBitOrder(LSBFIRST);
+  
   LEDManager::zeroAll();
 }
 

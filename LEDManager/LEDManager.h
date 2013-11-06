@@ -8,6 +8,7 @@
 
 #include <Arduino.h>
 #include <ArduConf00.h>
+#include <SPI.h>
 
 // for led shift register shifting
 #define LATCHPIN (13)   // Pin connected to latch pin (ST_CP) of 74HC595
