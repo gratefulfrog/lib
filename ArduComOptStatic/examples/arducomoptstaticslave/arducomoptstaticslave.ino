@@ -1,3 +1,4 @@
+// -*-c++-*-
 /* This is an example of how to use the ArduComOptSlave class.
  * First we have to define a function that will generate the response to incoming messages
  * 'prcoMsg' is just that: It prepends alternatively an 'e' or an 'x' to the incoming message

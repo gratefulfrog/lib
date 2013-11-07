@@ -1,3 +1,4 @@
+// -*-c++-*-
 /* This is an example of how to use the ArduComOptStaticMaster class.
  * First we have to define a function that will generate stuff to send on the comm.
  * 'processSerialMonitorIncoming()': this is the routine that gets stuff from the serial monitor.
