@@ -35,19 +35,14 @@ typedef   byte (State::*stateFunc)();
 
 class Actuator {
 private:
-  static const byte nbActuators =  NB_ACTUATORS;
   static long lastActionTime;
   const actionFunc af;
   DebounceButton   *db;
   State *s;
   const stateFunc sf; // inc, dec, or toggle
-  const byte led0,
-    nbLeds,
-    confI;
-  Actuator(byte buttonPin, 
-	   byte l0,
-	   byte nbL,
-	   byte cI,
+  const byte confID;  // the id in the conf class
+  Actuator(byte buttonPin,
+	   byte cID,
 	   State *sPtr,
 	   stateFunc sfPtr, 
 	   actionFunc afPtr);
@@ -57,6 +52,7 @@ private:
 
  public:
   static boolean allOK;
+  static const byte nbActuators =  NB_ACTUATORS;
   static Actuator *actuators[NB_ACTUATORS];
   static ArduStomp *as;
   static void init(ArduStomp *ass);

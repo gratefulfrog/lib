@@ -44,13 +44,13 @@ const byte ArduConf00::offOn[] = {0,255},
 			  1}; // connect led
                           // end of second byte!
 
-boolean ArduConf00::mapExtID(byte extID, byte *result, boolean mapPreset){
+boolean ArduConf00::mapExtID(byte confID, byte *result, boolean mapPreset){
   byte searchIndex = mapPreset ? 2 :0,
     resultIndex = mapPreset ? 0:1;
 
   // return true if found, and provides result in pointer
   for (byte b=0; b<AC_NB_MAPS;b++){
-    if (ArduConf00::IDMap[b][searchIndex] == extID){
+    if (ArduConf00::IDMap[b][searchIndex] == confID){
       *result = ArduConf00::IDMap[b][resultIndex];
       return true;
     }
@@ -68,18 +68,18 @@ void ArduConf00::b2a(byte pin, byte val, char *buf){
   buf[4] = 48+ val%10;
 }
 
-byte ArduConf00::bufLenNbSettings(byte extID, boolean settings) { 
+byte ArduConf00::bufLenNbSettings(byte confID, boolean settings) { 
   // returns leng of char buf needed for a message to the id,
   // NO SPACE MADE FOR '\0' !!
   byte id;
-  if (!ArduConf00::mapExtID(extID, &id)){
+  if (!ArduConf00::mapExtID(confID, &id)){
     return 0; // lookup failed !
   }
   
   return msgLenNbSettings[id][settings ? 1 : 0] * (settings ? 1 : ArduConf00::wordLen) ;
 }
 
-void ArduConf00::getMsg(byte extID, byte v, char *buf){ 
+boolean ArduConf00::getMsg(byte confID, byte v, char *buf){ 
   //buf must be right lenght exactly;
   // id values come from controlIDs in this class
   // values are numerical integers (byte size) as follows
@@ -87,8 +87,8 @@ void ArduConf00::getMsg(byte extID, byte v, char *buf){
   // bridge       : [0, 1, 2]
   // vol, tone    :  [0, 1, 2, 3, 4, 5]
   byte id;
-  if (!ArduConf00::mapExtID(extID, &id)){
-    return; // lookup failed !
+  if (!ArduConf00::mapExtID(confID, &id)){
+    return false; // lookup failed !
   }
   for (byte b=0;b<msgLenNbSettings[id][0];b++){ 
     const byte *pin = pinPtr[id];
@@ -105,6 +105,7 @@ void ArduConf00::getMsg(byte extID, byte v, char *buf){
     //Serial.println(*val);
     b2a(*pin,*val,&buf[b*wordLen]);
   }
+  return true;
 }
 
 

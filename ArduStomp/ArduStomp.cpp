@@ -54,17 +54,31 @@ void ArduStomp::doPreset(){
   }
   LEDManager::zeroAll();
   for (byte key=0; b<SDReader::nbKeys-2;key++){ // not the bridge key
-    byte confVal = p->presetValue(curPresetIndex,key);
-    Actuator::doMsg(ArduConf00::presetFileToConfMap[key], confVal);
-    lm->set(LEDManager::Leds[ArduConf00::presetFileToConfMap[key]], confVal);
-  }
+    byte confVal = p->presetValue(curPresetIndex,key),
+      confID;
+    if(ArduConf00::mapExtID(key, confID, true)){    
+      Actuator::doMsg(confID, confVal);
+      if (Actuator::allOK){
+	LEDManager::set(confID,confVal);
+      }
+    }
+  } 
   // now do the bridge:
-  byte bridgeConfVal = p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey) +
-    p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey);
-  Actuator::doMsg(ArduConf00::bridgeI, bridgeConfVal);
-  lm->set(LEDManager::Leds[ArduConf00::bridgeI], bridgeConfVal);
+  // if brdigeNorth -> val is 0B10, ie 2
+  // else if BridgeBoth -> val is 0B11 ie 3
+  // else val is 0
+  byte bridgeConfVal =  0;
+  if(p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey)) {
+    bridgeConfVal =  2;
+  }
+  else if(p->presetValue(curPresetIndex, PresetClass::bridgeBothKey)){
+    bridgeConfVal =  3;
+  }
+  Actuator::doMsg(ArduConf00::bridgeID, bridgeConfVal);
+  if (Actuator::allOK){
+    LEDManager::set(ArduConf00::bridgeID, bridgeConfVal);
+  }
 }
-  
 
 void ArduStomp::checkAuto(){
   byte nextPreset =  a->check();

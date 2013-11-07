@@ -18,7 +18,7 @@
 class LEDManager {
 
 private:
-  static unsigned int ledArray;  // why not map led states to one unsigned int? 16 bits!
+
   static void registerWrite();
   static byte leftShift(byte ledID);
 
@@ -26,8 +26,7 @@ public:
   static void init();
   static void zeroAll();
   static void set(byte confID, byte val);
-  // for debug
-  static unsigned int getArray() { return ledArray;};
+  static unsigned int ledArray;  // led states map to one unsigned int 16 bits!
 };
 
 #endif

@@ -1,3 +1,5 @@
+//  -*-C++-*-
+
 #include <SPI.h>
 
 #define LATCHPIN (13)   // Pin connected to latch pin (ST_CP) of 74HC595

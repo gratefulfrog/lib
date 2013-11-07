@@ -69,7 +69,6 @@ private:
     *valPtr[],
     wordLen = 5; // a word is 5 chars, no terminator!
   static void b2a(byte pin, byte val, char *buf);
-  static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
   
 public:
   static const byte nbLeds[], // nb of leds for the id in index
@@ -82,8 +81,9 @@ public:
     toneID    = 6,
     powerID   = 7,
     connectID = 8;
-  static byte bufLenNbSettings(byte extID, boolean settings = false);
-  static void getMsg(byte extID, byte val, char *buf);
+  static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
+  static byte bufLenNbSettings(byte confID, boolean settings = false);
+  static boolean getMsg(byte confID, byte val, char *buf);
 };
 
 #endif

@@ -1,3 +1,5 @@
+//  -*-C++-*-
+
 #include <LEDManager.h>
 #include <ArduConf00.h>
 #include <SPI.h>
@@ -25,7 +27,7 @@ void setup(){
         Serial.print(ii);
         LEDManager::set(i,ii);
         Serial.print("\tLedArray:\t");
-        Serial.println(LEDManager::getArray());
+        Serial.println(ledArray,BIN);
       }
     for (byte ii = 0; ii<ArduConf00::bufLenNbSettings(i,true); ii++){
       Serial.print("Control ID:\t");
@@ -34,7 +36,7 @@ void setup(){
       Serial.print(ii);
       LEDManager::set(i,ii);
       Serial.print("\tLedArray:\t");
-      Serial.print(LEDManager::getArray());
+      Serial.print(ledArray,BIN);
       
       byte chars = ArduConf00::bufLenNbSettings(i) +1;
       if (chars >1){

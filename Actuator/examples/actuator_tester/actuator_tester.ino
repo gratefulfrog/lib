@@ -1,3 +1,5 @@
+//  -*-C++-*-
+
 #include <Arduino.h>
 #include <State.h>
 #include <SD.h>
