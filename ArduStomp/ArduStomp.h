@@ -29,14 +29,10 @@
 #define AFILE ("cycle.tsv")
 #define ALARM_PAUSE (1000)
 
-Class LEDManager;
+class LEDManager;
 
 class ArduStomp {
 private:
-  PresetClass *p;
-  AutoClass   *a;
-  LEDManager  *l;
-  byte         curPresetIndex;  // as per SDReader
   long         lastAlarmTime;
 
   ArduStomp(ArduComOptStaticMaster *cc,     
@@ -47,7 +43,11 @@ public:
   static LEDManager *lm;
   static ArduStomp *as;
   static void init();
+  byte curPresetIndex;  // as per SDReader
   ArduComOptStaticMaster *com;     
+  PresetClass *p;
+  AutoClass   *a;
+  void doPreset();
   void checkAuto();
   void autoOff();
   void stepAlarm();

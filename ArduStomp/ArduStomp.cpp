@@ -6,7 +6,6 @@
 #include <ArduStomp.h>
 
 ArduStomp *ArduStomp::as;
-LEDManager *ArduStomp::lm;
 
 ArduStomp::ArduStomp(ArduComOptStaticMaster *cc,
 		     PresetClass *pp,
@@ -18,10 +17,6 @@ ArduStomp::ArduStomp(ArduComOptStaticMaster *cc,
 }
 
 void ArduStomp::init(){
-  lm = new LEDManager();
-  pinMode(LATCHPIN,OUTPUT);
-  pinMode(CLOCKPIN,OUTPUT);
-  pinMode(DATAPIN,OUTPUT);
   RN42autoConnectOpt(&Serial1).setupRN42AndConnect();
   //msg("rn42 auto connect ok!");
   ArduComOptStaticMaster *_c = new ArduComOptStaticMaster(&Serial1,
@@ -45,7 +40,7 @@ void ArduStomp::init(){
     _a = NULL;
   }
   as = new ArduStomp(_c,_p,_a);
-  as->doPreset()  
+  as->doPreset();
 }
 
 void ArduStomp::doPreset(){
@@ -53,10 +48,10 @@ void ArduStomp::doPreset(){
     return;
   }
   LEDManager::zeroAll();
-  for (byte key=0; b<SDReader::nbKeys-2;key++){ // not the bridge key
+  for (byte key=0; key<PresetClass::nbKeys-2;key++){ // not the bridge key
     byte confVal = p->presetValue(curPresetIndex,key),
       confID;
-    if(ArduConf00::mapExtID(key, confID, true)){    
+    if(ArduConf00::mapExtID(key, &confID, true)){    
       Actuator::doMsg(confID, confVal);
       if (Actuator::allOK){
 	LEDManager::set(confID,confVal);
@@ -89,9 +84,9 @@ void ArduStomp::checkAuto(){
 }
 
 void ArduStomp::stepAlarm() {
-  lm->set(LEDManager::powerID,1);
+  LEDManager::set(ArduConf00::powerID,1);
   delay(ALARM_PAUSE);
-  lm->set(LEDManager::powerID,0);
+  LEDManager::set(ArduConf00::powerID,0);
   delay(ALARM_PAUSE);
 }
 

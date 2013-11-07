@@ -56,6 +56,7 @@ boolean Actuator::autoAction(){
 boolean Actuator::update(){
   if (allOK && 
       (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
+      af !=NULL &&
       db->pressed()){
     lastActionTime = millis();
     return (this->*af)();
@@ -109,17 +110,17 @@ void Actuator::init(ArduStomp *ass){
 			      &State::dec,
 			      &Actuator::stdAction);
   // preset actuator
-  actuators[7] = new Actuator(P_PIN,
-			      ArduConf00::presetID,
-			      State::presetsState,
-			      &State::circularInc,
-			      &Actuator::presetsAction);
+  actuators[7] = as->p ? new Actuator(P_PIN,
+				      ArduConf00::presetID,
+				      State::presetsState,
+				      &State::circularInc,
+				      &Actuator::presetsAction) : NULL;
   // auto actuator
-  actuators[AUTO_ACT] = new Actuator(A_PIN,
-				     ArduConf00::autoID,
-				     State::autoState,
-				     &State::toggle,
-				     &Actuator::autoAction);  
+  actuators[AUTO_ACT] = as->a ? new Actuator(A_PIN,
+					     ArduConf00::autoID,
+					     State::autoState,
+					     &State::toggle,
+					     &Actuator::autoAction) : NULL;  
   lastActionTime = millis();
   allOK = true;
 }
