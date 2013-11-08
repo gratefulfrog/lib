@@ -1,9 +1,12 @@
 ArduStomp	KEYWORD1
 as	KEYWORD2
 init	KEYWORD2
+curPresetIndex	KEYWORD2
+p	KEYWORD2
+a	KEYWORD2
+doPreset	KEYWORD2
+checkAuto	KEYWORD2
 autoOff	KEYWORD2
-loop	KEYWORD2
-com	KEYWORD2
-
+stepAlarm	KEYWORD2
 
 

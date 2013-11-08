@@ -101,7 +101,7 @@ boolean PresetClass::parse() {
               c[1] = f.read();
             }
             //Serial.println(c);
-            presets[line] |= (atoi(c) << P_VOL_SHIFT);
+            presets[line] |= (constrain(round(atoi(c)/2.0),0,5) << P_VOL_SHIFT);
             break;
           case 2: // tone, read another and convert
             cc[0] = f.peek();
@@ -111,8 +111,13 @@ boolean PresetClass::parse() {
               //Serial.println("reading another in tone.");
               c[1] = f.read();
             }
-            //Serial.println(c);
-            presets[line] |= (atoi(c) << P_TONE_SHIFT);
+	    /*
+	      Serial.print("Tone read\t");
+	      Serial.println(c);
+	      Serial.println("\tTone wrote\t");
+	      Serial.println(constrain(round(atoi(c)/2.0),0,5));
+	    */
+            presets[line] |= (constrain(round(atoi(c)/2.0),0,5) << P_TONE_SHIFT);
             break;
           default: // neck , mid, bridgeN, bridgeB
             presets[line] |= (atoi(c) << (6 - pos));

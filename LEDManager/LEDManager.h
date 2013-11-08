@@ -24,7 +24,7 @@ private:
 
 public:
   static void init();
-  static void zeroAll();
+  static void zeroAll(boolean reallyAll = false); // only for special cases!
   static void set(byte confID, byte val);
   static unsigned int ledArray;  // led states map to one unsigned int 16 bits!
 };

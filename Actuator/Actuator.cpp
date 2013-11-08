@@ -2,7 +2,7 @@
 
 ArduStomp *Actuator::as;
 long Actuator::lastActionTime;
-boolean Actuator::allOK;
+boolean Actuator::allOK = true;
 
 Actuator::Actuator(byte buttonPin, 
 		   byte cID,

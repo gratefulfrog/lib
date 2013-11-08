@@ -12,6 +12,9 @@ void LEDManager::registerWrite() {
   // turn off the output so the leds don't light up
   // while you're shifting bits:
   digitalWrite(LATCHPIN, LOW);
+  delay(5);
+  //Serial.print("Called LEDManager::registerWrite:\t" );
+  //Serial.println(ledArray,BIN);
   /*
   shiftOut(DATAPIN, 
            CLOCKPIN, 
@@ -44,13 +47,20 @@ void LEDManager::init(){
     pinMode(CLOCKPIN, OUTPUT);
   */
   SPI.begin();
-  SPI.setBitOrder(LSBFIRST);
+  SPI.setBitOrder(MSBFIRST);
   
   LEDManager::zeroAll();
 }
 
-void LEDManager::zeroAll(){
-  LEDManager::ledArray = 0;
+void LEDManager::zeroAll(boolean reallyAll){
+  //Serial.print("LEDManager::zeroAll(): ");
+  //Serial.println(reallyAll);
+  if (reallyAll){
+    LEDManager::ledArray = 0;
+  }
+  else{ // leave connect and power
+    LEDManager::ledArray &= (1 << leftShift(ArduConf00::connectID)) & (1<< leftShift(ArduConf00::powerID));
+  }
   LEDManager::registerWrite();
 }
 
@@ -68,14 +78,16 @@ void LEDManager::set(byte confID, byte val){
   // first clear the bits concerned
   unsigned int mask = (unsigned int)((1<<ArduConf00::nbLeds[confID])-1) << (unsigned int)leftShift(confID);
   /*
-    Serial.print("\tunshiftedMask:\t");
-    Serial.print((unsigned int)((1<<ArduConf00::nbLeds[confID])-1));
-    Serial.print("\tMask:\t");
-    Serial.print(mask);
+  Serial.print("\tunshiftedMask:\t");
+  Serial.print((unsigned int)((1<<ArduConf00::nbLeds[confID])-1));
+  Serial.print("\tMask:\t");
+  Serial.print(mask,BIN);
   */
   LEDManager::ledArray &= ~mask;
   // now or the val in
   mask = val << leftShift(confID);
   LEDManager::ledArray |= mask;
+  Serial.print("Calling LEDManager::registerWrite:\t" );
+  Serial.println(ledArray,BIN);
   LEDManager::registerWrite();
 }

@@ -12,6 +12,13 @@
  * Jazz	  11	1	1	0	0	0
  * Comp	  8	11	0	1	0	1
  * Auto	  0	0	0	0	0	0
+ ********
+ * from cycle.tsv
+ * name	 msWait
+ * Rock	 1500
+ * Woman 1500
+ * Jazz	 1500
+ * Comp	 1500
  *
  * from conf.pde
  * volPins[] = {"09","10","12"},

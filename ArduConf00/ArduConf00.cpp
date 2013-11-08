@@ -16,7 +16,7 @@ const byte ArduConf00::offOn[] = {0,255},
 			    {ArduConf00::middleID,1,3},  // ext mid->1, presets[3]->middle
 			    {ArduConf00::bridgeID,2,4},  // ext bridge>2,presets[4]->bridge
 			    {ArduConf00::volID,3,0},     // ext vol->3; presets[0]->vol
-			    {ArduConf00::toneID,4}},     // ext tone>4;   presets[1]->tone
+			    {ArduConf00::toneID,4,1}},     // ext tone>4;   presets[1]->tone
   *ArduConf00::pinPtr[]  = {&ArduConf00::neckPin,  // neck pin
 			    &ArduConf00::middlePin, // middle pin
 			    &ArduConf00::bridgePins[0],  //fbridge  pins
@@ -47,11 +47,18 @@ const byte ArduConf00::offOn[] = {0,255},
 boolean ArduConf00::mapExtID(byte confID, byte *result, boolean mapPreset){
   byte searchIndex = mapPreset ? 2 :0,
     resultIndex = mapPreset ? 0:1;
-
+  /*
+    Serial.print("ArduConf00::mapExtID() called:\t");
+    Serial.print(confID);
+    Serial.print(", ");
+    Serial.println(mapPreset);
+  */
   // return true if found, and provides result in pointer
   for (byte b=0; b<AC_NB_MAPS;b++){
     if (ArduConf00::IDMap[b][searchIndex] == confID){
       *result = ArduConf00::IDMap[b][resultIndex];
+      //Serial.print("ArduConf00::mapExtID() returning:\t");
+      //Serial.println(*result);
       return true;
     }
   }

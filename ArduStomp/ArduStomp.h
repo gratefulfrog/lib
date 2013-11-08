@@ -40,7 +40,6 @@ private:
 	    AutoClass   *aa);
 
 public:
-  static LEDManager *lm;
   static ArduStomp *as;
   static void init();
   byte curPresetIndex;  // as per SDReader
