@@ -52,18 +52,38 @@ boolean Actuator::autoAction(){
   LEDManager::set(confID,nextState);
   return true;
 }
-    
+
+
+boolean Actuator::update(){
+  if (allOK && 
+      (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
+      af !=NULL){
+    lastActionTime = millis();
+    Serial.print("inside if of Actuator::update, confID:\t");
+    Serial.println(confID);
+    Serial.print("db->pressed():\t");
+    Serial.println(db->pressed());
+    //delay(2000);
+    }
+  return false;
+}
+
+
+/*    
 boolean Actuator::update(){
   if (allOK && 
       (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
       af !=NULL &&
       db->pressed()){
     lastActionTime = millis();
+    Serial.print("inside if of Actuator::update, confID:\t");
+    Serial.println(confID);
+    delay(2000);
     return (this->*af)();
   }
   return false;
 }
-
+*/
 Actuator *Actuator::actuators[NB_ACTUATORS];
 void Actuator::init(ArduStomp *ass){
   as = ass;
