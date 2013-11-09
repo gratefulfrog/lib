@@ -67,11 +67,13 @@ Done.
 
 #include <Arduino.h>
 #include <SD.h>
+#include <outils.h>
 
 // the SD card select pin is required by the SD lib...
 #define SDPIN (10)
 
 #define NB_PRESETS (4)
+//#define NB_PRESETS (3)
 
 // defines used in protected calls
 #define P_VOL_SHIFT  (8)
@@ -118,6 +120,7 @@ class PresetClass: public SDReader {
       nbKeys = 6;
                       
     PresetClass(char *presetsFileName);
+    void tempGet() const;
     byte presetValue(byte presetIndex, byte key) const;
     boolean parse();
     byte firstLetter2Index(char c) const;

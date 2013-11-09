@@ -11,6 +11,7 @@
 #include <State.h>
 #include <ArduConf00.h>
 #include <ArduStomp.h>
+#include <outils.h>
 
 #define NB_ACTUATORS (9)
 #define AUTO_ACT (8)

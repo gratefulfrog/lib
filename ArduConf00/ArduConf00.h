@@ -73,8 +73,8 @@ private:
     IDMap[][3],
     msgLenNbSettings[][2],
     *pinPtr[],
-    *valPtr[],
-    wordLen = 5; // a word is 5 chars, no terminator!
+    *valPtr[];
+
   static void b2a(byte pin, byte val, char *buf);
   
 public:
@@ -87,7 +87,8 @@ public:
     volID     = 5,
     toneID    = 6,
     powerID   = 7,
-    connectID = 8;
+    connectID = 8,
+    wordLen = 5; // a word is 5 chars, no terminator!
   static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
   static byte bufLenNbSettings(byte confID, boolean settings = false);
   static boolean getMsg(byte confID, byte val, char *buf);

@@ -6,6 +6,8 @@ boolean procReply(char *reply, char *sent, byte replySize){
   // if it starts with e, then not ok!
   // otherwise, if any of the chars do not match the last sent, i.e. the top of the queue, 
   // then not ok.
+  //ArduComOptStatic::msg("Received reply: ",reply,replySize);
+  msg("Received reply: ",reply,replySize);
   if(reply[0] == ARDUCOMOPTSTATIC_ERRORCHAR){
     return false;
   }
@@ -19,7 +21,7 @@ boolean procReply(char *reply, char *sent, byte replySize){
   return ret;
 }
 
-// DEBUG: all this section
+/* DEBUG: all this section
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////  Human Monitoring Stuff ///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -38,7 +40,7 @@ void  ArduComOptStatic::msg(String s, char *c, int len)  {
   buff[len] = '\0';
   msg (s + buff);
 }
-//*/
+*/
 
 //////////////////////////////////////////////////////////
 /////////////////  ArduComOptStatic        /////////////////////
@@ -123,11 +125,13 @@ void ArduComOptStaticMaster::executeMsg(){
   // if it is ok, then we confirm ack and can pop the queue 
   // if it is not ok, then we do not pop the queue and do not set the ACK
   // in any event, we try to send the atom currently at the top of the queue, 
+  Serial.println("Entering: ArduComOptStaticMaster::executeMsg()");
   char sBuf[msgSize];
   if(q->pQ(sBuf) && 
      (*rFunc)(msgBuffer,sBuf,msgSize+1)){
      q->deQ(sBuf);
      // DEBUG: 1 line
+     //Serial.println("in 'if' of ArduComOptStaticMaster::executeMsg()");
      msg("dq'd: ",sBuf,msgSize);
      atomAckedOnPort = true;
   }
@@ -179,25 +183,30 @@ void ArduComOptStaticMaster::doInit(){
 void ArduComOptStaticMaster::stepLoop(){
   // do one of the following:
   // if the current incoming atom is complete, then process it,
-  // or, if there is something to read on Serial1, add it to the current incoming atom,
+ // or, if there is something to read on Serial1, add it to the current incoming atom,
   // or, if it is ok to send something, then send the atom at the head of the queue
   //processIncomingAtom();
   if (currentCharCount == responseSize) {
     // DEBUG: 1 line
     msg("Rec'd reply: ",msgBuffer,responseSize);
+    //Serial.println("hello?");
     executeMsg();
     currentCharCount = 0;
   }
   else if (port->available()>0){
     char c = port->read();
+    //Serial.print("reading on port:\t");
+    //Serial.println(c);
     if (c != ARDUCOMOPTSTATIC_INITCHAR){
       msgBuffer[currentCharCount++] = c;
     }
     else{
       port->write(ARDUCOMOPTSTATIC_INITCHAR);  // to clear an init call!
     }
+    //Serial.print("\ncurrentCharCount:\t");
+    //Serial.println(currentCharCount);
     // DEBUG: 1 line
-    msg("Rec'd a char : ",&c,1);
+    //msg("Rec'd a char : ",&c,1);
   }
   else if (atomAckedOnPort){
     // try to send the top of the queue, NOT only to prime the pump, 

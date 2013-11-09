@@ -15,6 +15,7 @@
 
 #include <Arduino.h>
 #include <outQueueStatic.h>
+#include <outils.h>
 
 typedef boolean (*ArduComOptStaticResponseFunc)(char*,char*,byte);
 
@@ -33,8 +34,8 @@ class ArduComOptStatic {
     virtual void executeMsg() = 0;
   public:
     // DEBUG: 2 lines for debug, not used otherwise
-    static void msg(String s) ;
-    static void msg(String s, char *c, int len) ;
+    //static void msg(String s) ;
+    //static void msg(String s, char *c, int len) ;
     // end debug methods
 
     const byte msgSize,

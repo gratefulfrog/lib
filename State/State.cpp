@@ -26,7 +26,7 @@ void State::init(){
   bridgeState  =  new State(2);
   volState     =  new State(5);
   toneState    =  new State(5);
-  presetsState =  new State(4);
+  presetsState =  new State(3);
   autoState    =  new State();
 
 }

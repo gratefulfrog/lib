@@ -30,6 +30,16 @@ PresetClass::PresetClass(char *presetFileName): SDReader(presetFileName,false){
   }
 }
 
+void PresetClass::tempGet() const {
+  Serial.println("list of Presets");
+  for (byte b=0;b<NB_PRESETS;b++){
+    Serial.print(b);
+    Serial.print("\t");
+    Serial.println(presets[b],BIN);
+  }
+}
+
+
 byte PresetClass::preVal(unsigned int i, unsigned int mask, int shift) const{
   // internal call
   return (i >> shift) & mask;
@@ -45,6 +55,15 @@ byte PresetClass::presetValue(byte presetIndex, byte key) const{
    * bridgeNorthKey
    * bridgeBothKey
    */
+  /*
+    Serial.print("PresetClass::presetValue");
+    Serial.print(presetIndex);
+    Serial.print("\t");
+    Serial.println(key);
+  */
+  //freeRam();
+  //presets[presetIndex];
+  //Serial.println("accessed.");
   switch (key) {
     case volKey:
       return preVal(presets[presetIndex],P_VT, P_VOL_SHIFT);
@@ -126,6 +145,8 @@ boolean PresetClass::parse() {
     }
   }
   f.close();
+  Serial.println("Presets Read:");
+  tempGet();
   return true;
 }
 

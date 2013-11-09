@@ -17,16 +17,49 @@ Actuator::Actuator(byte buttonPin,
 
 void Actuator::doMsg(byte confID, byte val){
   char buf[ArduConf00::bufLenNbSettings(confID)];
+  //Serial.print("Sizeof buff\t");
+  //Serial.println(sizeof(buf));
   if (!ArduConf00::getMsg(confID,val,buf)){
     return;
   }
-  byte nbSettings = ArduConf00::bufLenNbSettings(confID, true);
+  
+  char tbuf[sizeof(buf)+1];
+  for (byte b=0;b<sizeof(buf);b++){
+    tbuf[b]=buf[b];
+  }
+  tbuf[sizeof(buf)]='\0';
+  Serial.print("outgoing buff from Actuator::doMsg\t");
+  Serial.print(tbuf);
+  
+  //byte nbSettings = ArduConf00::bufLenNbSettings(confID, true);
+  byte nbMessages = sizeof(buf)/ArduConf00::wordLen;
+  //Serial.print("\tnbMessages\t");
+  //Serial.println(nbMessages);
   for (byte b = 0 ; 
-       allOK && (b < nbSettings);
+       //allOK && (b < nbSettings);
+       allOK && (b < nbMessages);
        b++){
-    allOK = as->com->enqueueMsg(buf+b);
+    allOK = as->com->enqueueMsg(buf+b*ArduConf00::wordLen);
+    Serial.print("\nEnqueing:\t");
+    for (byte c=0;c<5;c++){
+      Serial.print((buf+b*ArduConf00::wordLen)[c]);
+    }
+    Serial.print("\tallOK:\t");
+    Serial.println(allOK);
   }
 }
+/*
+boolean Actuator::stdAction(){
+  Serial.print("Actuator::stdAction: current state:\t");
+  byte curState = s->val;
+  Serial.print(curState);
+  byte  nextState =  (s->*sf)();
+  Serial.print("\tnext state:\t");
+  Serial.println(nextState);
+  freeRam();
+  return false;
+}
+*/
 
 boolean Actuator::stdAction(){
   byte curState = s->val,
@@ -42,28 +75,55 @@ boolean Actuator::stdAction(){
 }
 
 boolean Actuator::presetsAction(){
+  Serial.print("Actuator::presetsAction: current state:\t");
+  byte curState = s->val;
+  Serial.print(curState);
+  as->curPresetIndex = (s->*sf)();
+  Serial.print("\tnext state:\t");
+  Serial.println(as->curPresetIndex);
+  as->doPreset();
+  freeRam();
+  return true;
+}
+
+/*
+boolean Actuator::presetsAction(){
   as->curPresetIndex = (s->*sf)();
   as->doPreset();
   return true;
 }
+*/
+boolean Actuator::autoAction(){
+  Serial.print("Actuator::autoAction: current state:\t");
+  byte curState = s->val;
+  Serial.print(curState);
+  byte  nextState =  (s->*sf)();
+  Serial.print("\tnext state:\t");
+  Serial.println(nextState);
+  LEDManager::set(confID,nextState);
+  freeRam();
+  return false;
+}
+
+/*
 boolean Actuator::autoAction(){
   byte nextState =  (s->*sf)();
   as->a->start((boolean)nextState);
   LEDManager::set(confID,nextState);
   return true;
 }
-
+*/
 
 boolean Actuator::update(){
   if (allOK && 
       (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
-      af !=NULL){
-    lastActionTime = millis();
+      af !=NULL &&
+      db->pressed()){
+      lastActionTime = millis();
     Serial.print("inside if of Actuator::update, confID:\t");
-    Serial.println(confID);
-    Serial.print("db->pressed():\t");
-    Serial.println(db->pressed());
-    //delay(2000);
+    Serial.print(confID);
+    Serial.println("\tdb->pressed()!");
+    return (this->*af)();
     }
   return false;
 }

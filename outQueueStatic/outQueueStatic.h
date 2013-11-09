@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <State.h>
+#include <outils.h>
 
 /////////////////////////////////////
 // this is where the length of elements in the queue is defined!!

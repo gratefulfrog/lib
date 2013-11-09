@@ -53,14 +53,22 @@ void LEDManager::init(){
 }
 
 void LEDManager::zeroAll(boolean reallyAll){
-  //Serial.print("LEDManager::zeroAll(): ");
-  //Serial.println(reallyAll);
+  /*
+  Serial.print("LEDManager::zeroAll(): ");
+  Serial.print(reallyAll);
+  Serial.print("\tLedArray:\t");
+  Serial.println(LEDManager::ledArray,BIN);  
+  */
   if (reallyAll){
     LEDManager::ledArray = 0;
   }
   else{ // leave connect and power
-    LEDManager::ledArray &= (1 << leftShift(ArduConf00::connectID)) & (1<< leftShift(ArduConf00::powerID));
+    LEDManager::ledArray &= ((1 << leftShift(ArduConf00::connectID)) | (1<< leftShift(ArduConf00::powerID)));
   }
+  /*
+  Serial.print("\tLedArray:\t");
+  Serial.println(LEDManager::ledArray,BIN);  
+  */
   LEDManager::registerWrite();
 }
 
@@ -82,12 +90,14 @@ void LEDManager::set(byte confID, byte val){
   Serial.print((unsigned int)((1<<ArduConf00::nbLeds[confID])-1));
   Serial.print("\tMask:\t");
   Serial.print(mask,BIN);
+  Serial.print("\tLedArray:\t");
+  Serial.println(LEDManager::ledArray,BIN);
   */
   LEDManager::ledArray &= ~mask;
   // now or the val in
   mask = val << leftShift(confID);
   LEDManager::ledArray |= mask;
-  Serial.print("Calling LEDManager::registerWrite:\t" );
-  Serial.println(ledArray,BIN);
+  //Serial.print("Calling LEDManager::registerWrite:\t" );
+  //Serial.println(ledArray,BIN);
   LEDManager::registerWrite();
 }

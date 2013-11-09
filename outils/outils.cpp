@@ -12,3 +12,18 @@ void freeRam (){
   }
   //  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
+
+extern void msg(char* str, char *buf, byte len){
+  bool something =false;
+  if (sizeof(str)){
+    Serial.print(str);
+    something = true;
+  }
+  for (byte b=0;b<len;b++){
+    Serial.print(buf[b]);
+    something = true;
+  }
+  if(something){
+    Serial.println();
+  }
+}

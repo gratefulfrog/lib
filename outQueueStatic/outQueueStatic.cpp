@@ -27,6 +27,9 @@ boolean outQueueStatic::enQ(char *next){
     return false; // and do nothing
   }
   eltCount++;
+  msg("outQueueStatic::enQ, enqued\t",next,5);  
+  Serial.print("\noutQueueStatic::enQ\tQ elt count:\t");
+  Serial.println(eltCount);
   setElt(tail->val,next);
   tail->inc();
   return true;
@@ -39,11 +42,16 @@ boolean outQueueStatic::deQ(char *buf){
     return false;
   }
   eltCount--;
+  //Serial.print("outQueueStatic::deQ\tQ elt count:\t");
+  //Serial.println(eltCount);
   for (byte i = 0; i<ELEN;i++){
     buf[i] = queue[head->val][i];
   }
   resetElt(head->val);
   head->circularInc();
+  //msg("outQueueStatic::deQ, dequed\t",buf,5);
+  Serial.print("\noutQueueStatic::deQ\tQ elt count:\t");
+  Serial.println(eltCount);
   return true;
 }
 
@@ -54,6 +62,10 @@ boolean  outQueueStatic::pQ(char* buf) const{
   for (byte i = 0; i<ELEN;i++){
     buf[i] = queue[head->val][i];
   }
+  Serial.print("outQueueStatic::pQ\teltCount:\t");
+  Serial.print(eltCount);
+  //msg("outQueueStatic::pQ, peeked\t",buf,5);
+
   return true;
 }
   
