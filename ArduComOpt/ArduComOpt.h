@@ -33,8 +33,8 @@ class ArduComOpt {
     virtual void executeMsg() = 0;
   public:
     // DEBUG: 2 lines for debug, not used otherwise
-    static void msg(String s) ;
-    static void msg(String s, char *c, int len) ;
+    //static void msg(String s) ;
+    //static void msg(String s, char *c, int len) ;
     // end debug methods
 
     const byte msgSize,
@@ -63,7 +63,8 @@ class ArduComOptMaster: public ArduComOpt {
   void sendAtom();
  public:
    ArduComOptMaster(HardwareSerial *p, byte mSz);
-   void enqueueMsg(char *msg);
+   //void enqueueMsg(char *msg);
+   boolean enqueueMsg(char *msg);
    //char* peekQ();
    void doInit();
    void stepLoop();

@@ -39,7 +39,7 @@ void Actuator::doMsg(byte confID, byte val){
        //allOK && (b < nbSettings);
        allOK && (b < nbMessages);
        b++){
-    allOK = as->com->enqueueMsg(buf+b*ArduConf00::wordLen);
+    allOK = as->com->enqueueMsg(&buf[b*ArduConf00::wordLen]);
     Serial.print("\nEnqueing:\t");
     for (byte c=0;c<5;c++){
       Serial.print((buf+b*ArduConf00::wordLen)[c]);
@@ -74,6 +74,21 @@ boolean Actuator::stdAction(){
   return false;
 }
 
+boolean Actuator::bridgeAction(){
+  byte nextState =  (s->*sf)();
+  byte bridgeConfVal = (nextState ? 1+nextState: 0);
+  //Serial.print("bridgeAction:\tnextState\t");
+  //Serial.println(nextState);
+  //Serial.print("\tbridgeConfVal\t");
+  //Serial.println(bridgeConfVal);
+  doMsg(confID, bridgeConfVal);
+  if (allOK){
+    LEDManager::set(confID,bridgeConfVal);
+  }
+  return allOK;
+}
+
+
 boolean Actuator::presetsAction(){
   Serial.print("Actuator::presetsAction: current state:\t");
   byte curState = s->val;
@@ -81,6 +96,7 @@ boolean Actuator::presetsAction(){
   as->curPresetIndex = (s->*sf)();
   Serial.print("\tnext state:\t");
   Serial.println(as->curPresetIndex);
+  LEDManager::set(confID,as->curPresetIndex);
   as->doPreset();
   freeRam();
   return true;
@@ -164,7 +180,7 @@ void Actuator::init(ArduStomp *ass){
 			      ArduConf00::bridgeID,
 			      State::bridgeState,
 			      &State::circularInc,
-			      &Actuator::stdAction);
+			      &Actuator::bridgeAction);
   // vol UP actuator
   actuators[3] = new Actuator(VUP_PIN, // button pin
 			      ArduConf00::volID,

@@ -28,7 +28,8 @@ class State {
       *volState,
       *toneState,
       *presetsState,
-      *autoState;
+      *autoState,
+      *states[];
 
     static void init();
     byte val;

@@ -66,6 +66,8 @@ void ArduStomp::doPreset(){
     if(ArduConf00::mapExtID(key, &confID, true)){    
       Actuator::doMsg(confID, confVal);
       if (Actuator::allOK){
+	State::states[confID]->val=confVal;
+	// set state!!! here!!!!
 	LEDManager::set(confID,confVal);
       }
     }

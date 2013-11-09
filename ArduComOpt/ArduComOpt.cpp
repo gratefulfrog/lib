@@ -19,6 +19,7 @@ boolean procReply(char *reply, char *sent, byte replySize){
   return ret;
 }
 
+/*
 // DEBUG: all this section
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////  Human Monitoring Stuff ///////////////////////////////
@@ -38,12 +39,11 @@ void  ArduComOpt::msg(String s, char *c, int len)  {
   buff[len] = '\0';
   msg (s + buff);
 }
-//*/
+*/
 
 //////////////////////////////////////////////////////////
 /////////////////  ArduComOpt        /////////////////////
 //////////////////////////////////////////////////////////
-
 
 void ArduComOpt::respond(){
   port->write((byte*)msgBuffer,responseSize);
@@ -130,7 +130,7 @@ void ArduComOptMaster::executeMsg(){
   if((*rFunc)(msgBuffer, q->pQ(),msgSize)){
     char *c = q->deQ();
     // DEBUG: 1 line
-    msg("dq'd: ",c,msgSize);
+    //msg("dq'd: ",c,msgSize);
     atomAckedOnPort = true;
   }
   // so it's ok and we moved on, or it's not ok and we are still at the same on
@@ -144,7 +144,7 @@ void ArduComOptMaster::sendAtom(){
   if (m != NULL){
     port->write((byte*)m,msgSize);
     // DEBUG: 1 line
-    msg("Sent atom: ",m,msgSize);
+    //msg("Sent atom: ",m,msgSize);
     atomAckedOnPort =false;
   }
 }
@@ -156,8 +156,9 @@ ArduComOptMaster::ArduComOptMaster(HardwareSerial *p,
   q = new outQueue();
 }
 
-void ArduComOptMaster::enqueueMsg(char *msg){
+boolean ArduComOptMaster::enqueueMsg(char *msg){
   q->enQ(msg);
+  return true;
 }
 
 /*
@@ -192,7 +193,7 @@ void ArduComOptMaster::stepLoop(){
   //processIncomingAtom();
   if (currentCharCount == responseSize) {
     // DEBUG: 1 line
-    msg("Rec'd reply: ",msgBuffer,responseSize);
+    //msg("Rec'd reply: ",msgBuffer,responseSize);
     executeMsg();
     currentCharCount = 0;
   }
@@ -205,7 +206,7 @@ void ArduComOptMaster::stepLoop(){
       port->write(ARDUCOMOPT_INITCHAR);  // to clear an init call!
     }
     // DEBUG: 1 line
-    msg("Rec'd a char : ",&c,1);
+    //msg("Rec'd a char : ",&c,1);
   }
   else if (atomAckedOnPort){
     // try to send the top of the queue, NOT only to prime the pump, 

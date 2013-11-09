@@ -18,17 +18,26 @@ State *State::neckState,
   *State::volState,
   *State::toneState,
   *State::presetsState,
-  *State::autoState;
+  *State::autoState,
+  *State::states[7];
 
 void State::init(){
-  neckState    =  new State();
-  middleState  =  new State();
-  bridgeState  =  new State(2);
-  volState     =  new State(5);
-  toneState    =  new State(5);
-  presetsState =  new State(3);
-  autoState    =  new State();
-
+  states[0] = neckState    =  new State();
+  states[1] = middleState  =  new State();
+  states[2] = bridgeState  =  new State(2);
+  states[5] = volState     =  new State(5);
+  states[6] = toneState    =  new State(5);
+  states[3] = presetsState =  new State(3);
+  states[4] = autoState    =  new State();
+  /*
+    neckState;
+    middleState,
+    bridgeState,
+    presetsState,
+    autoState,
+    volState,
+    toneState
+  */
 }
 byte State::inc(){
   return val = (val == maxVal ? maxVal : val+incVal);

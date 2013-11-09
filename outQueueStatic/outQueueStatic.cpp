@@ -27,7 +27,7 @@ boolean outQueueStatic::enQ(char *next){
     return false; // and do nothing
   }
   eltCount++;
-  msg("outQueueStatic::enQ, enqued\t",next,5);  
+  //msg("outQueueStatic::enQ, enqued\t",next,5);  
   Serial.print("\noutQueueStatic::enQ\tQ elt count:\t");
   Serial.println(eltCount);
   setElt(tail->val,next);

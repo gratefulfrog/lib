@@ -11,6 +11,8 @@
 #include <State.h>
 #include <outQueueStatic.h>
 #include <ArduComOptStatic.h>
+#include <outQueue.h>
+#include <ArduComOpt.h>
 #include <RN42autoConnectOpt.h>
 #include <SD.h>
 #include <SDReader.h>

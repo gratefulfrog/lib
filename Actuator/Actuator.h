@@ -48,6 +48,7 @@ private:
 	   stateFunc sfPtr, 
 	   actionFunc afPtr);
   boolean stdAction();
+  boolean bridgeAction();
   boolean presetsAction();
   boolean autoAction();
 
