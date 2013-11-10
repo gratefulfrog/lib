@@ -92,6 +92,7 @@ public:
   static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
   static byte bufLenNbSettings(byte confID, boolean settings = false);
   static boolean getMsg(byte confID, byte val, char *buf);
+  static byte bridgeState2LedVal(byte bridgeState);
 };
 
 #endif

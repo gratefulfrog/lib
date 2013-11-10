@@ -136,6 +136,7 @@ void ArduComOptStaticMaster::executeMsg(){
      atomAckedOnPort = true;
   }
   // so it's ok and we moved on, or it's not ok and we are still at the same on
+  Serial.println("In ArduComOptStaticMaster::executeMsg, about to sendAtom.");
   sendAtom();  // try to send the next one, or the last one again 
 }
 
@@ -145,8 +146,15 @@ void ArduComOptStaticMaster::sendAtom(){
   char sBuf[msgSize];
   if (q->pQ(sBuf)){
     port->write((byte*)sBuf,msgSize);
-    // DEBUG: 1 line
-    msg("Sent atom: ",sBuf,msgSize);
+    // DEBUG: 7 lines
+    if(sBuf[0] !='0' && sBuf[0] !='1'){
+      Serial.println("Sent BAD atom!");
+      freeRam();
+      while(Serial.read()<0);
+    }
+    else{
+      msg("Sent atom: ",sBuf,msgSize);
+    }  
     atomAckedOnPort =false;
   }
 }
@@ -159,6 +167,12 @@ ArduComOptStaticMaster::ArduComOptStaticMaster(HardwareSerial *p,
 }
 
 boolean ArduComOptStaticMaster::enqueueMsg(char *msg){
+  // DEBUG: 7 lines
+  if(msg[0] !='0' && msg[0] !='1'){
+    Serial.println("Enqd BAD msg!");
+    freeRam();
+    while(Serial.read()<0);
+  }
   return q->enQ(msg);
 }
 
@@ -219,6 +233,7 @@ void ArduComOptStaticMaster::stepLoop(){
     // which would imply that the top sent, if there is one! 
     // But what if there is nothing in the queue? then, we return to the initial state and
     // this branch of the if will get called if an outgoing atom is enqueued.
+    //Serial.println("In ArduComOptStaticMaster::stepLoop, about to sendAtom.");
     sendAtom();  
   }
 }

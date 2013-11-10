@@ -6,7 +6,7 @@
 
 #include <Arduino.h>
 
-extern void freeRam();
+extern void freeRam(boolean force=false);
 extern void msg(char* str, char*, byte len);
 
 #endif

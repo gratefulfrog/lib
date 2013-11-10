@@ -115,6 +115,9 @@ boolean ArduConf00::getMsg(byte confID, byte v, char *buf){
   return true;
 }
 
+byte ArduConf00::bridgeState2LedVal(byte bridgeState){
+  return bridgeState==1 ? (byte)3: bridgeState;  
+}
 
 /*  2013 11 06: Test results from ~/lib/ArduConfOO/examples/arduconf00_tester/arduconf00_tester.ino
 Ext ID: 0

@@ -48,8 +48,6 @@ void ArduStomp::init(){
   //Serial.print("auto class pointer after parse: ");
   //Serial.println((int)_a);
   as = new ArduStomp(_c,_p,_a);
-  
-  //as->doPreset();
 }
 
 void ArduStomp::doPreset(){
@@ -73,19 +71,23 @@ void ArduStomp::doPreset(){
     }
   } 
   // now do the bridge:
-  // if brdigeNorth -> val is 0B10, ie 2
-  // else if BridgeBoth -> val is 0B11 ie 3
+  // if brdigeNorth -> val is 0B10, ie 2, stateVal=2
+  // else if BridgeBoth -> ledval is 0B11 ie 3, stateVal = 1
   // else val is 0
-  byte bridgeConfVal =  0;
+  byte bridgeStateVal =  0;
   if(p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey)) {
-    bridgeConfVal =  2;
+    bridgeStateVal =  2;
   }
   else if(p->presetValue(curPresetIndex, PresetClass::bridgeBothKey)){
-    bridgeConfVal =  3;
+    bridgeStateVal =  1;
   }
-  Actuator::doMsg(ArduConf00::bridgeID, bridgeConfVal);
+  Actuator::doMsg(ArduConf00::bridgeID, bridgeStateVal);
   if (Actuator::allOK){
-    LEDManager::set(ArduConf00::bridgeID, bridgeConfVal);
+    State::states[ArduConf00::bridgeID]->val=bridgeStateVal;
+    LEDManager::set(ArduConf00::bridgeID, 
+		    ArduConf00::bridgeState2LedVal(bridgeStateVal));
+    State::states[ArduConf00::presetID]->val=curPresetIndex;
+    LEDManager::set(ArduConf00::presetID,curPresetIndex+1);
   }
 }
 

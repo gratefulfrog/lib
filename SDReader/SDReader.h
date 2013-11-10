@@ -120,7 +120,7 @@ class PresetClass: public SDReader {
       nbKeys = 6;
                       
     PresetClass(char *presetsFileName);
-    void tempGet() const;
+    //void tempGet() const;
     byte presetValue(byte presetIndex, byte key) const;
     boolean parse();
     byte firstLetter2Index(char c) const;

@@ -15,16 +15,6 @@ void LEDManager::registerWrite() {
   delay(5);
   //Serial.print("Called LEDManager::registerWrite:\t" );
   //Serial.println(ledArray,BIN);
-  /*
-  shiftOut(DATAPIN, 
-           CLOCKPIN, 
-	   LSBFIRST, 
-	   (byte)(LEDManager::ledArray >> 8));
-  shiftOut(DATAPIN, 
-           CLOCKPIN, 
-	   LSBFIRST, 
-	   (byte)(LEDManager::ledArray & 0B11111111));
-  */
   SPI.transfer((byte)(LEDManager::ledArray >> 8));
   SPI.transfer((byte)(LEDManager::ledArray & 0B11111111));
   
@@ -42,10 +32,6 @@ byte LEDManager::leftShift(byte ledID) {
 
 void LEDManager::init(){
   pinMode(LATCHPIN, OUTPUT);
-  /*
-    pinMode(DATAPIN, OUTPUT);  
-    pinMode(CLOCKPIN, OUTPUT);
-  */
   SPI.begin();
   SPI.setBitOrder(MSBFIRST);
   

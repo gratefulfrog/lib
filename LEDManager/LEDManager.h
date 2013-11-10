@@ -12,8 +12,8 @@
 
 // for led shift register shifting
 #define LATCHPIN (13)   // Pin connected to latch pin (ST_CP) of 74HC595
-#define CLOCKPIN (12)   // Pin connected to clock pin (SH_CP) of 74HC595
-#define DATAPIN (11)    // Pin connected to Data in (DS) of 74HC595
+//#define CLOCKPIN (12)   // Pin connected to clock pin (SH_CP) of 74HC595
+//#define DATAPIN (11)    // Pin connected to Data in (DS) of 74HC595
 
 class LEDManager {
 

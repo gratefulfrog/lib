@@ -22,30 +22,26 @@ void Actuator::doMsg(byte confID, byte val){
   if (!ArduConf00::getMsg(confID,val,buf)){
     return;
   }
-  
-  char tbuf[sizeof(buf)+1];
-  for (byte b=0;b<sizeof(buf);b++){
-    tbuf[b]=buf[b];
-  }
-  tbuf[sizeof(buf)]='\0';
   Serial.print("outgoing buff from Actuator::doMsg\t");
-  Serial.print(tbuf);
-  
+  for (byte b=0;b<sizeof(buf);b++){
+    Serial.print(buf[b]);
+  }
+  Serial.println();
   //byte nbSettings = ArduConf00::bufLenNbSettings(confID, true);
-  byte nbMessages = sizeof(buf)/ArduConf00::wordLen;
+  //byte nbMessages = sizeof(buf)/ArduConf00::wordLen;
   //Serial.print("\tnbMessages\t");
   //Serial.println(nbMessages);
   for (byte b = 0 ; 
        //allOK && (b < nbSettings);
-       allOK && (b < nbMessages);
+       allOK && (b < sizeof(buf)/ArduConf00::wordLen);
        b++){
     allOK = as->com->enqueueMsg(&buf[b*ArduConf00::wordLen]);
     Serial.print("\nEnqueing:\t");
     for (byte c=0;c<5;c++){
       Serial.print((buf+b*ArduConf00::wordLen)[c]);
     }
-    Serial.print("\tallOK:\t");
-    Serial.println(allOK);
+    //Serial.print("\tallOK:\t");
+    //Serial.println(allOK);
   }
 }
 /*
@@ -75,28 +71,26 @@ boolean Actuator::stdAction(){
 }
 
 boolean Actuator::bridgeAction(){
+  //Serial.print("on call to bridgeAction, state:\t");
+  //byte curS =s->val;
+  //Serial.println(curS);
   byte nextState =  (s->*sf)();
-  byte bridgeConfVal = (nextState ? 1+nextState: 0);
-  //Serial.print("bridgeAction:\tnextState\t");
-  //Serial.println(nextState);
-  //Serial.print("\tbridgeConfVal\t");
-  //Serial.println(bridgeConfVal);
-  doMsg(confID, bridgeConfVal);
+  doMsg(confID, nextState);
   if (allOK){
-    LEDManager::set(confID,bridgeConfVal);
+    LEDManager::set(confID,
+		    ArduConf00::bridgeState2LedVal(nextState));
   }
   return allOK;
 }
 
-
 boolean Actuator::presetsAction(){
-  Serial.print("Actuator::presetsAction: current state:\t");
-  byte curState = s->val;
-  Serial.print(curState);
+  //Serial.print("Actuator::presetsAction: current state:\t");
+  //byte curState = s->val;
+  //Serial.print(curState);
   as->curPresetIndex = (s->*sf)();
-  Serial.print("\tnext state:\t");
-  Serial.println(as->curPresetIndex);
-  LEDManager::set(confID,as->curPresetIndex);
+  //Serial.print("\tnext state:\t");
+  //Serial.println(as->curPresetIndex);
+  //LEDManager::set(confID,as->curPresetIndex);
   as->doPreset();
   freeRam();
   return true;
@@ -110,12 +104,12 @@ boolean Actuator::presetsAction(){
 }
 */
 boolean Actuator::autoAction(){
-  Serial.print("Actuator::autoAction: current state:\t");
-  byte curState = s->val;
-  Serial.print(curState);
+  //Serial.print("Actuator::autoAction: current state:\t");
+  //byte curState = s->val;
+  //Serial.print(curState);
   byte  nextState =  (s->*sf)();
-  Serial.print("\tnext state:\t");
-  Serial.println(nextState);
+  //Serial.print("\tnext state:\t");
+  //Serial.println(nextState);
   LEDManager::set(confID,nextState);
   freeRam();
   return false;
@@ -136,11 +130,11 @@ boolean Actuator::update(){
       af !=NULL &&
       db->pressed()){
       lastActionTime = millis();
-    Serial.print("inside if of Actuator::update, confID:\t");
-    Serial.print(confID);
-    Serial.println("\tdb->pressed()!");
-    return (this->*af)();
-    }
+      //Serial.print("inside if of Actuator::update, confID:\t");
+      //Serial.print(confID);
+      //Serial.println("\tdb->pressed()!");
+      return (this->*af)();
+  }
   return false;
 }
 
@@ -162,6 +156,7 @@ boolean Actuator::update(){
 */
 Actuator *Actuator::actuators[NB_ACTUATORS];
 void Actuator::init(ArduStomp *ass){
+  Serial.println("Actuator::init");
   as = ass;
   // neck actuator
   actuators[0] = new Actuator(N_PIN,  // button pin
@@ -180,7 +175,8 @@ void Actuator::init(ArduStomp *ass){
 			      ArduConf00::bridgeID,
 			      State::bridgeState,
 			      &State::circularInc,
-			      &Actuator::bridgeAction);
+			      //&Actuator::stdAction);
+                              &Actuator::bridgeAction);
   // vol UP actuator
   actuators[3] = new Actuator(VUP_PIN, // button pin
 			      ArduConf00::volID,
