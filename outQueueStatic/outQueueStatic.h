@@ -11,6 +11,7 @@
 #define ELEN (5)
 // nb of elts in the queue
 #define QLEN (40)
+//#define QLEN (33)
 
 class outQueueStatic {
   private:

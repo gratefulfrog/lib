@@ -89,13 +89,19 @@ void ArduStomp::doPreset(){
     State::states[ArduConf00::presetID]->val=curPresetIndex;
     LEDManager::set(ArduConf00::presetID,curPresetIndex+1);
   }
+  if (a && a->running){
+    // turn on its led
+    LEDManager::set(ArduConf00::autoID,1);
+  }
 }
 
 void ArduStomp::checkAuto(){
-  byte nextPreset =  a->check();
-  if (curPresetIndex != nextPreset){
-    curPresetIndex = nextPreset;
-    doPreset();
+  if (a && a->running){
+    byte nextPreset =  a->check();
+    if (curPresetIndex != nextPreset){
+      curPresetIndex = nextPreset;
+      doPreset();
+    }
   }
 }
 
@@ -109,6 +115,6 @@ void ArduStomp::stepAlarm() {
 
 void ArduStomp::autoOff(){
   if (a && a->running){
-    Actuator::actuators[AUTO_ACT]->update();
+    Actuator::autoOff();
   }
 }

@@ -59,6 +59,7 @@ private:
   static ArduStomp *as;
   static void init(ArduStomp *ass);
   static void doMsg(byte confID, byte val);
+  static void autoOff();
   boolean update();  // returns true if something has been done
 };
 #endif

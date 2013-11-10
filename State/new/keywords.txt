@@ -1,0 +1,19 @@
+State	KEYWORD1
+init	KEYWORD2
+val	KEYWORD2
+inc	KEYWORD2
+LinearState	KEYWORD1
+CircularState	KEYWORD1
+ToggleState	KEYWORD1
+neckState	KEYWORD2
+middleState	KEYWORD2
+bridgeState	KEYWORD2
+volState	KEYWORD2
+toneState	KEYWORD2
+presetsState	KEYWORD2
+autoState	KEYWORD2
+states		KEYWORD2
+INC	KEYWORD2
+DEC	KEYWORD2
+
+

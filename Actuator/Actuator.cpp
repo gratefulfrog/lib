@@ -96,65 +96,40 @@ boolean Actuator::presetsAction(){
   return true;
 }
 
-/*
-boolean Actuator::presetsAction(){
-  as->curPresetIndex = (s->*sf)();
-  as->doPreset();
-  return true;
-}
-*/
-boolean Actuator::autoAction(){
-  //Serial.print("Actuator::autoAction: current state:\t");
-  //byte curState = s->val;
-  //Serial.print(curState);
-  byte  nextState =  (s->*sf)();
-  //Serial.print("\tnext state:\t");
-  //Serial.println(nextState);
-  LEDManager::set(confID,nextState);
-  freeRam();
-  return false;
-}
-
-/*
 boolean Actuator::autoAction(){
   byte nextState =  (s->*sf)();
-  as->a->start((boolean)nextState);
+  as->a->start(boolean(nextState));
   LEDManager::set(confID,nextState);
+  //freeRam();
   return true;
 }
-*/
 
-boolean Actuator::update(){
-  if (allOK && 
-      (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
-      af !=NULL &&
-      db->pressed()){
-      lastActionTime = millis();
-      //Serial.print("inside if of Actuator::update, confID:\t");
-      //Serial.print(confID);
-      //Serial.println("\tdb->pressed()!");
-      return (this->*af)();
-  }
-  return false;
+void Actuator::autoOff(){
+  actuators[AUTO_ACT]->s->val = 0;
+  as->a->start(false);
+  LEDManager::set(ArduConf00::autoID,0);
 }
+ 
 
-
-/*    
 boolean Actuator::update(){
   if (allOK && 
       (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
       af !=NULL &&
       db->pressed()){
+    if (confID != ArduConf00::autoID){
+      as->autoOff();
+    }
     lastActionTime = millis();
-    Serial.print("inside if of Actuator::update, confID:\t");
-    Serial.println(confID);
-    delay(2000);
+    //Serial.print("inside if of Actuator::update, confID:\t");
+    //Serial.print(confID);
+    //Serial.println("\tdb->pressed()!");
     return (this->*af)();
   }
   return false;
 }
-*/
+
 Actuator *Actuator::actuators[NB_ACTUATORS];
+
 void Actuator::init(ArduStomp *ass){
   Serial.println("Actuator::init");
   as = ass;
