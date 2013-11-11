@@ -29,17 +29,7 @@ PresetClass::PresetClass(char *presetFileName): SDReader(presetFileName,false){
     mapp[b] = '\0';
   }
 }
-/*
-void PresetClass::tempGet() const {
-  Serial.println("list of Presets");
-  for (byte b=0;b<NB_PRESETS;b++){
-    Serial.print(b);
-    Serial.print("\t");
-    Serial.println(presets[b],BIN);
-  }
-}
 
-*/
 byte PresetClass::preVal(unsigned int i, unsigned int mask, int shift) const{
   // internal call
   return (i >> shift) & mask;
