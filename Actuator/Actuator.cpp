@@ -22,11 +22,12 @@ void Actuator::doMsg(byte confID, byte val){
   if (!ArduConf00::getMsg(confID,val,buf)){
     return;
   }
-  Serial.print("outgoing buff from Actuator::doMsg\t");
+  /*Serial.print("outgoing buff from Actuator::doMsg\t");
   for (byte b=0;b<sizeof(buf);b++){
     Serial.print(buf[b]);
   }
   Serial.println();
+  */
   //byte nbSettings = ArduConf00::bufLenNbSettings(confID, true);
   //byte nbMessages = sizeof(buf)/ArduConf00::wordLen;
   //Serial.print("\tnbMessages\t");
@@ -36,26 +37,15 @@ void Actuator::doMsg(byte confID, byte val){
        allOK && (b < sizeof(buf)/ArduConf00::wordLen);
        b++){
     allOK = as->com->enqueueMsg(&buf[b*ArduConf00::wordLen]);
-    Serial.print("\nEnqueing:\t");
+    /*Serial.print("\nEnqueing:\t");
     for (byte c=0;c<5;c++){
       Serial.print((buf+b*ArduConf00::wordLen)[c]);
     }
+    */
     //Serial.print("\tallOK:\t");
     //Serial.println(allOK);
   }
 }
-/*
-boolean Actuator::stdAction(){
-  Serial.print("Actuator::stdAction: current state:\t");
-  byte curState = s->val;
-  Serial.print(curState);
-  byte  nextState =  (s->*sf)();
-  Serial.print("\tnext state:\t");
-  Serial.println(nextState);
-  freeRam();
-  return false;
-}
-*/
 
 boolean Actuator::stdAction(){
   byte curState = s->val,
@@ -171,7 +161,7 @@ boolean Actuator::update(){
 Actuator *Actuator::actuators[NB_ACTUATORS];
 
 void Actuator::init(ArduStomp *ass){
-  Serial.println("Actuator::init");
+  //Serial.println("Actuator::init");
   as = ass;
   // neck actuator
   actuators[0] = new Actuator(N_PIN,  // button pin

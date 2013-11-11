@@ -51,7 +51,7 @@ void ArduStomp::init(){
 }
 
 void ArduStomp::doPreset(){
-  Serial.println("entering: ArduStomp::doPreset()");
+  //Serial.println("entering: ArduStomp::doPreset()");
   
   if (p == NULL) {
     return;

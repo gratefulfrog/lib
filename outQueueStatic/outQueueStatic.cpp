@@ -7,12 +7,12 @@ void outQueueStatic::resetElt(byte index){
 }
 
 void outQueueStatic::setElt(byte index, char *val){
-  Serial.print("oQS::setElt:\t");
+  //Serial.print("oQS::setElt:\t");
   for (byte b=0;b<ELEN;b++){
-    Serial.print(val[b]);
+    //Serial.print(val[b]);
     queue[index][b] = val[b];
   }
-  Serial.println();
+  //Serial.println();
   //delay(5);
 }
 
@@ -27,8 +27,8 @@ outQueueStatic::outQueueStatic(){
   
 boolean outQueueStatic::enQ(char *next){
   // returns true if success, false if queue is full
-  Serial.print("\noutQueueStatic::enQ\tQ elt count:\t");
-  Serial.println(eltCount);
+  //Serial.print("\noutQueueStatic::enQ\tQ elt count:\t");
+  //Serial.println(eltCount);
   //delay(5);
   if (eltCount == QLEN){  // Queue is full!
     return false; // and do nothing
@@ -42,8 +42,8 @@ boolean outQueueStatic::enQ(char *next){
 boolean outQueueStatic::deQ(char *buf){
   // true if something to deQ,
   // copy from head to buf, then zero buf, and inc head
-  Serial.print("\noutQueueStatic::deQ\tQ elt count:\t");
-  Serial.println(eltCount);
+  //Serial.print("\noutQueueStatic::deQ\tQ elt count:\t");
+  //Serial.println(eltCount);
   //delay(5);
   if (eltCount == 0){
     return false;

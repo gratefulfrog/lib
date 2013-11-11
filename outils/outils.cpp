@@ -27,3 +27,13 @@ extern void msg(char* str, char *buf, byte len){
     Serial.println();
   }
 }
+
+void checkRam(){
+  static long lastRamCheckTime = millis();
+  const int freeRameCheckDelay = 10000;
+
+  if (millis() - lastRamCheckTime > freeRameCheckDelay){
+    lastRamCheckTime = millis();
+    freeRam(true);
+  }
+}  

@@ -21,27 +21,6 @@ boolean procReply(char *reply, char *sent, byte replySize){
   return ret;
 }
 
-/* DEBUG: all this section
-///////////////////////////////////////////////////////////////////////////
-///////////////////  Human Monitoring Stuff ///////////////////////////////
-///////////////////////////////////////////////////////////////////////////
- void ArduComOptStatic::msg(String s) {
-  // send stuff to the serial terminal for human observation
-  Serial.println(s);
-}
-
-void  ArduComOptStatic::msg(String s, char *c, int len)  {
-  // send stuff to the serial terminal for human observation
-  // allows a string plus a un-terminated char array to be sent
-  char buff[len+1];
-  for (int i=0;i< len;i++){
-    buff[i]=  c[i];
-  }
-  buff[len] = '\0';
-  msg (s + buff);
-}
-*/
-
 //////////////////////////////////////////////////////////
 /////////////////  ArduComOptStatic        /////////////////////
 //////////////////////////////////////////////////////////
@@ -125,18 +104,18 @@ void ArduComOptStaticMaster::executeMsg(){
   // if it is ok, then we confirm ack and can pop the queue 
   // if it is not ok, then we do not pop the queue and do not set the ACK
   // in any event, we try to send the atom currently at the top of the queue, 
-  Serial.println("Entering: ArduComOptStaticMaster::executeMsg()");
+  //Serial.println("Entering: ArduComOptStaticMaster::executeMsg()");
   char sBuf[msgSize];
   if(q->pQ(sBuf) && 
      (*rFunc)(msgBuffer,sBuf,msgSize+1)){
      q->deQ(sBuf);
      // DEBUG: 1 line
      //Serial.println("in 'if' of ArduComOptStaticMaster::executeMsg()");
-     msg("dq'd: ",sBuf,msgSize);
+     //msg("dq'd: ",sBuf,msgSize);
      atomAckedOnPort = true;
   }
   // so it's ok and we moved on, or it's not ok and we are still at the same on
-  Serial.println("In ArduComOptStaticMaster::executeMsg, about to sendAtom.");
+  //Serial.println("In ArduComOptStaticMaster::executeMsg, about to sendAtom.");
   sendAtom();  // try to send the next one, or the last one again 
 }
 
@@ -202,7 +181,7 @@ void ArduComOptStaticMaster::stepLoop(){
   //processIncomingAtom();
   if (currentCharCount == responseSize) {
     // DEBUG: 1 line
-    msg("Rec'd reply: ",msgBuffer,responseSize);
+    //msg("Rec'd reply: ",msgBuffer,responseSize);
     //Serial.println("hello?");
     executeMsg();
     currentCharCount = 0;
