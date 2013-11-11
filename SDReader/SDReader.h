@@ -121,7 +121,8 @@ class PresetClass: public SDReader {
                       
     PresetClass(char *presetsFileName);
     //void tempGet() const;
-    byte presetValue(byte presetIndex, byte key) const;
+    //byte presetValue(byte presetIndex, byte key) const;
+    void presetValue(byte presetIndex, byte key, byte *val, boolean set=false);
     boolean parse();
     byte firstLetter2Index(char c) const;
 };

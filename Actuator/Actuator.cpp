@@ -95,6 +95,47 @@ boolean Actuator::presetsAction(){
   freeRam();
   return true;
 }
+ 
+boolean Actuator::saveAction(){
+  if (! as->p){
+    return false;
+  }
+  // vol, tone, neck, middle are easy
+  as->p->presetValue(as->curPresetIndex, 
+		     PresetClass::volKey,
+		     &State::volState->val,
+		     true);
+  as->p->presetValue(as->curPresetIndex, 
+		     PresetClass::toneKey,
+		     &State::toneState->val,
+		     true);
+  as->p->presetValue(as->curPresetIndex, 
+		     PresetClass::neckKey,
+		     &State::neckState->val,
+		     true);
+  as->p->presetValue(as->curPresetIndex, 
+		     PresetClass::middleKey,
+		     &State::middleState->val,
+		     true);
+  // bridge is a little harder 
+  // bridgeState 0 ->
+  // bridgeState 1 -> north(0),both(1)
+  // bridgeState 2 -> north(1),both(0)
+  byte bNorthVal = State::bridgeState->val == 2 ? 1 : 0,
+    bBothVal = State::bridgeState->val == 1 ? 1 : 0;
+  as->p->presetValue(as->curPresetIndex, 
+		     PresetClass::bridgeNorthKey,
+		     &bNorthVal,
+		     true);
+  as->p->presetValue(as->curPresetIndex, 
+		     PresetClass::bridgeBothKey,
+		     &bBothVal,
+		     true);
+  // then flash the leds!!
+  LEDManager::flashLeds();
+  return true;
+  
+}
 
 boolean Actuator::autoAction(){
   byte nextState =  (s->*sf)();
@@ -109,8 +150,7 @@ void Actuator::autoOff(){
   as->a->start(false);
   LEDManager::set(ArduConf00::autoID,0);
 }
- 
-
+    
 boolean Actuator::update(){
   if (allOK && 
       (millis() - lastActionTime > MIN_TIME_BETWEEN_BUTTON_PRESSES) &&
@@ -188,6 +228,13 @@ void Actuator::init(ArduStomp *ass){
 					     State::autoState,
 					     &State::toggle,
 					     &Actuator::autoAction) : NULL;  
+  // save preset actuator
+  actuators[9] = as->a ? new Actuator(S_PIN,
+				      ArduConf00::saveID,
+				      NULL,
+				      NULL,
+				      &Actuator::saveAction) : NULL;  
+
   lastActionTime = millis();
   allOK = true;
 }

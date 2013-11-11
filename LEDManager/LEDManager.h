@@ -1,3 +1,4 @@
+// -*- c++ -*-
 /* LEDManager.h
  * this is the library class that controls the leds
  * in the ArduStompBox
@@ -9,6 +10,9 @@
 #include <Arduino.h>
 #include <ArduConf00.h>
 #include <SPI.h>
+
+#define NB_LED_FLASHES  (3)
+#define LED_FLASH_DELAY  (200)
 
 // for led shift register shifting
 #define LATCHPIN (13)   // Pin connected to latch pin (ST_CP) of 74HC595
@@ -25,6 +29,8 @@ private:
 public:
   static void init();
   static void zeroAll(boolean reallyAll = false); // only for special cases!
+  static void setAll();
+  static void flashLeds();
   static void set(byte confID, byte val);
   static unsigned int ledArray;  // led states map to one unsigned int 16 bits!
 };

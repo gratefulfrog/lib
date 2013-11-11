@@ -39,24 +39,33 @@ void LEDManager::init(){
 }
 
 void LEDManager::zeroAll(boolean reallyAll){
-  /*
-  Serial.print("LEDManager::zeroAll(): ");
-  Serial.print(reallyAll);
-  Serial.print("\tLedArray:\t");
-  Serial.println(LEDManager::ledArray,BIN);  
-  */
   if (reallyAll){
     LEDManager::ledArray = 0;
   }
   else{ // leave connect and power
     LEDManager::ledArray &= ((1 << leftShift(ArduConf00::connectID)) | (1<< leftShift(ArduConf00::powerID)));
   }
-  /*
-  Serial.print("\tLedArray:\t");
-  Serial.println(LEDManager::ledArray,BIN);  
-  */
   LEDManager::registerWrite();
 }
+
+void LEDManager::setAll(){
+  unsigned int zero = 0;
+  LEDManager::ledArray = ~zero;
+  LEDManager::registerWrite();
+}
+void LEDManager::flashLeds(){
+  unsigned int leds = LEDManager::ledArray;
+  for (byte b=0;b<NB_LED_FLASHES;b++){
+    LEDManager::setAll();
+    delay(LED_FLASH_DELAY);
+    LEDManager::zeroAll(true);
+    delay(LED_FLASH_DELAY);
+  }
+  LEDManager::ledArray = leds;
+  LEDManager::registerWrite();
+}
+
+
 
 void LEDManager::set(byte confID, byte val){
   /*

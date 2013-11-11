@@ -45,39 +45,49 @@ byte PresetClass::preVal(unsigned int i, unsigned int mask, int shift) const{
   return (i >> shift) & mask;
 }
 
-byte PresetClass::presetValue(byte presetIndex, byte key) const{
-  /* public method to read the preset values
-   * use the const static byte  as 2nd arg: 
-   * volKey
-   * toneKey
-   * neckKey
-   * middleKey
-   * bridgeNorthKey
-   * bridgeBothKey
-   */
-  /*
-    Serial.print("PresetClass::presetValue");
-    Serial.print(presetIndex);
-    Serial.print("\t");
-    Serial.println(key);
-  */
-  //freeRam();
-  //presets[presetIndex];
-  //Serial.println("accessed.");
+//byte PresetClass::presetValue(byte presetIndex, byte key) const{
+void PresetClass::presetValue(byte presetIndex, 
+			      byte key, 
+			      byte *val, 
+			      boolean set){
+  // public method to read and set the preset values
+  // in case of set: values should be on internal GUITAR scale ALREADY
+  // PUPs 0,1
+  // vol or tone : [0,5]
+  unsigned int mask =  P_PUP,
+    shift = P_BB_SHIFT;
   switch (key) {
     case volKey:
-      return preVal(presets[presetIndex],P_VT, P_VOL_SHIFT);
+      mask = P_VT;
+      shift = P_VOL_SHIFT;
+      break;
+      //return preVal(presets[presetIndex],P_VT, P_VOL_SHIFT);
     case toneKey:
-      return preVal(presets[presetIndex],P_VT, P_TONE_SHIFT);
+      mask = P_VT;
+      shift = P_TONE_SHIFT;
+      break;
+      //return preVal(presets[presetIndex],P_VT, P_TONE_SHIFT);
     case neckKey:
-      return preVal(presets[presetIndex],P_PUP, P_NECK_SHIFT);
+      shift =  P_NECK_SHIFT;
+      break;
+      //return preVal(presets[presetIndex],P_PUP, P_NECK_SHIFT);
     case middleKey:
-      return preVal(presets[presetIndex],P_PUP, P_MID_SHIFT);
+      shift = P_MID_SHIFT;
+      break;
+      //return preVal(presets[presetIndex],P_PUP, P_MID_SHIFT);
     case bridgeNorthKey:
-      return preVal(presets[presetIndex],P_PUP, P_BN_SHIFT);    
-    case bridgeBothKey:
-      return preVal(presets[presetIndex],P_PUP, P_BB_SHIFT);    
+      shift = P_BN_SHIFT;
+      break;
+      //return preVal(presets[presetIndex],P_PUP, P_BN_SHIFT);    
+      //case bridgeBothKey:
+      //return preVal(presets[presetIndex],P_PUP, P_BB_SHIFT);    
   }
+  if(set){
+    presets[presetIndex] =  
+      (presets[presetIndex] & ~(mask<<shift)) | 
+      ((*val) << shift);
+  }
+  *val = preVal(presets[presetIndex],mask,shift);    
 }
 
 boolean PresetClass::parse() {

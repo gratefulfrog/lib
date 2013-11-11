@@ -59,8 +59,11 @@ void ArduStomp::doPreset(){
   LEDManager::zeroAll();
   
   for (byte key=0; key<(PresetClass::nbKeys-2);key++){ // not the bridge key
-    byte confVal = p->presetValue(curPresetIndex,key),
+    //    byte confVal = p->presetValue(curPresetIndex,key),
+    // confID;
+    byte confVal, 
       confID;
+    p->presetValue(curPresetIndex,key,&confVal);
     if(ArduConf00::mapExtID(key, &confID, true)){    
       Actuator::doMsg(confID, confVal);
       if (Actuator::allOK){
@@ -74,12 +77,19 @@ void ArduStomp::doPreset(){
   // if brdigeNorth -> val is 0B10, ie 2, stateVal=2
   // else if BridgeBoth -> ledval is 0B11 ie 3, stateVal = 1
   // else val is 0
-  byte bridgeStateVal =  0;
-  if(p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey)) {
+  byte bridgeStateVal =  0,
+    val;
+  //if(p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey)) {
+  p->presetValue(curPresetIndex, PresetClass::bridgeNorthKey,&val);
+  if(val) {
     bridgeStateVal =  2;
   }
-  else if(p->presetValue(curPresetIndex, PresetClass::bridgeBothKey)){
-    bridgeStateVal =  1;
+//else if(p->presetValue(curPresetIndex, PresetClass::bridgeBothKey)){
+  else {
+    p->presetValue(curPresetIndex, PresetClass::bridgeBothKey,&val);
+    if (val){
+      bridgeStateVal =  1;
+    }
   }
   Actuator::doMsg(ArduConf00::bridgeID, bridgeStateVal);
   if (Actuator::allOK){

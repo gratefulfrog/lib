@@ -88,6 +88,7 @@ public:
     toneID    = 6,
     powerID   = 7,
     connectID = 8,
+    saveID    = 9,
     wordLen = 5; // a word is 5 chars, no terminator!
   static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
   static byte bufLenNbSettings(byte confID, boolean settings = false);

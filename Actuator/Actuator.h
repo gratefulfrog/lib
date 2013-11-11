@@ -13,7 +13,7 @@
 #include <ArduStomp.h>
 #include <outils.h>
 
-#define NB_ACTUATORS (9)
+#define NB_ACTUATORS (10)  // updated 2013 11 11
 #define AUTO_ACT (8)
 
 #define MIN_TIME_BETWEEN_BUTTON_PRESSES (100)
@@ -27,6 +27,7 @@
 #define B_PIN   (8)
 #define P_PIN   (9)
 #define A_PIN   (11)    // CHANGED 2013 11 06 to fit new 16bit led array
+#define S_PIN   (12)    // ADDED 2013 11 11 for saving preset
 
 class Actuator;
 class ArduStomp;
@@ -51,6 +52,7 @@ private:
   boolean bridgeAction();
   boolean presetsAction();
   boolean autoAction();
+  boolean saveAction();
 
  public:
   static boolean allOK;
