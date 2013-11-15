@@ -1,3 +1,5 @@
 outils	KEYWORD1
 freeRam	KEYWORD2
+msg	KEYWORD2
+checkRam	KEYWORD2
 

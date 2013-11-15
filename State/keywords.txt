@@ -12,4 +12,5 @@ volState	KEYWORD2
 toneState	KEYWORD2
 presetsState	KEYWORD2
 autoState	KEYWORD2
+states	KEYWORD2
 

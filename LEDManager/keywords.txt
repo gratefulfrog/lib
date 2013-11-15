@@ -2,6 +2,8 @@ LEDManager	KEYWORD1
 init	KEYWORD2
 zeroAll	KEYWORD2
 set	KEYWORD2
-getArray	KEYWORD2
+setAll	KEYWORD2
+flashLeds	KEYWORD2
+ledArray	KEYWORD2
 
 

@@ -1,20 +1,20 @@
 SDReader	KEYWORD1
 PresetClass	KEYWORD1
 AutoClass	KEYWORD1
-parse		KEYWORD2
-parse		KEYWORD2
-volKey		KEYWORD2
-toneKey		KEYWORD2
-neckKey		KEYWORD2
+parse	KEYWORD2
+volKey	KEYWORD2
+toneKey	KEYWORD2
+neckKey	KEYWORD2
 middleKey	KEYWORD2
 bridgeNorthKey	KEYWORD2
 bridgeBothKey	KEYWORD2
+nbKeys	KEYWORD2
 presetValue	KEYWORD2
 firstLetter2Index	KEYWORD2
 autoStruct	KEYWORD2
-running		KEYWORD2
-start		KEYWORD2
-check		KEYWORD2
+running	KEYWORD2
+start	KEYWORD2
+check	KEYWORD2
 
 
 
