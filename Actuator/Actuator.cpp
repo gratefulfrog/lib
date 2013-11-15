@@ -60,7 +60,7 @@ boolean Actuator::stdAction(){
   return false;
 }
 
-boolean Actuator::bridgeAction(){
+boolean Actuator::pupAction(){
   //Serial.print("on call to bridgeAction, state:\t");
   //byte curS =s->val;
   //Serial.println(curS);
@@ -68,7 +68,7 @@ boolean Actuator::bridgeAction(){
   doMsg(confID, nextState);
   if (allOK){
     LEDManager::set(confID,
-		    ArduConf00::bridgeState2LedVal(nextState));
+		    ArduConf00::pickupState2LedVal(nextState));
   }
   return allOK;
 }
@@ -168,20 +168,19 @@ void Actuator::init(ArduStomp *ass){
 			      ArduConf00::neckID,
 			      State::neckState,
 			      &State::toggle,
-			      &Actuator::stdAction);
+			      &Actuator::pupAction);
   // middle actuator
   actuators[1] = new Actuator(M_PIN, // button pin
 			      ArduConf00::middleID,
 			      State::middleState,
 			      &State::toggle,
-			      &Actuator::stdAction);
+			      &Actuator::pupAction);
   // bridge actuator
   actuators[2] = new Actuator(B_PIN, // button pin
 			      ArduConf00::bridgeID,
 			      State::bridgeState,
 			      &State::circularInc,
-			      //&Actuator::stdAction);
-                              &Actuator::bridgeAction);
+                              &Actuator::pupAction);
   // vol UP actuator
   actuators[3] = new Actuator(VUP_PIN, // button pin
 			      ArduConf00::volID,

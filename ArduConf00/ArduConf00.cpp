@@ -32,7 +32,7 @@ const byte ArduConf00::offOn[] = {0,255},
 				       {AC_BRIDGE_PINS,AC_BRIDGE_SETTINGS},  // bridge 2 pins, 3 settings
 				       {AC_VOL_PINS,AC_VOL_SETTINGS},  // vol  3 pins, 6 settings
 				       {AC_TONE_PINS,AC_TONE_SETTINGS}}, // tone 1 pin, 6 settings
-  ArduConf00::nbLeds[] = {1, // neck led
+  /*  ArduConf00::nbLeds[] = {1, // neck led
 			  1, // middle led
 			  2, // bridge leds  00 11 10 !! note vals don't work!
 			  3, // presets leds in binary !!!
@@ -42,6 +42,19 @@ const byte ArduConf00::offOn[] = {0,255},
 			  3, // tone leds in binary !!!
 			  1, // power led
 			  1}; // connect led
+                          // end of second byte!
+*/
+
+  ArduConf00::nbLeds[] = {2, // neck led
+			  2, // middle led
+			  2, // bridge leds  00 11 10 !! note vals don't work!
+			  1, // auto led
+			  3, // presets leds in binary !!! // end of first byte, after 1st
+			  3, // tone leds in binary !!!
+			  3}; // vol leds in binary !!!
+                          // end of second byte!
+			  //1, // power led
+			  //1}; // connect led
                           // end of second byte!
 
 boolean ArduConf00::mapExtID(byte confID, byte *result, boolean mapPreset){
@@ -115,8 +128,8 @@ boolean ArduConf00::getMsg(byte confID, byte v, char *buf){
   return true;
 }
 
-byte ArduConf00::bridgeState2LedVal(byte bridgeState){
-  return bridgeState==1 ? (byte)3: bridgeState;  
+byte ArduConf00::pickupState2LedVal(byte stateVal){
+  return stateVal==1 ? (byte)3: stateVal;  
 }
 
 /*  2013 11 06: Test results from ~/lib/ArduConfOO/examples/arduconf00_tester/arduconf00_tester.ino

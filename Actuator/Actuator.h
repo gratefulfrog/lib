@@ -49,7 +49,7 @@ private:
 	   stateFunc sfPtr, 
 	   actionFunc afPtr);
   boolean stdAction();
-  boolean bridgeAction();
+  boolean pupAction();
   boolean presetsAction();
   boolean autoAction();
   boolean saveAction();

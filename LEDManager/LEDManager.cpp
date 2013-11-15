@@ -38,6 +38,12 @@ void LEDManager::init(){
   LEDManager::zeroAll();
 }
 
+void LEDManager::zeroAll(){
+  LEDManager::ledArray = 0;
+  LEDManager::registerWrite();
+}
+
+/*
 void LEDManager::zeroAll(boolean reallyAll){
   if (reallyAll){
     LEDManager::ledArray = 0;
@@ -47,6 +53,7 @@ void LEDManager::zeroAll(boolean reallyAll){
   }
   LEDManager::registerWrite();
 }
+*/
 
 void LEDManager::setAll(){
   unsigned int zero = 0;
@@ -58,14 +65,12 @@ void LEDManager::flashLeds(){
   for (byte b=0;b<NB_LED_FLASHES;b++){
     LEDManager::setAll();
     delay(LED_FLASH_DELAY);
-    LEDManager::zeroAll(true);
+    LEDManager::zeroAll();
     delay(LED_FLASH_DELAY);
   }
   LEDManager::ledArray = leds;
   LEDManager::registerWrite();
 }
-
-
 
 void LEDManager::set(byte confID, byte val){
   /*

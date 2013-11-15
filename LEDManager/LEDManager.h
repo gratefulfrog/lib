@@ -28,7 +28,8 @@ private:
 
 public:
   static void init();
-  static void zeroAll(boolean reallyAll = false); // only for special cases!
+  //static void zeroAll(boolean reallyAll = false); // only for special cases!
+  static void zeroAll(); // 
   static void setAll();
   static void flashLeds();
   static void set(byte confID, byte val);

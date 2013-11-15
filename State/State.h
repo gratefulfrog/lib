@@ -22,13 +22,22 @@ class State {
     
   public:
     State(byte maxV=1); // min is zero and start is zero
-    static State  *neckState,
+    /*    static State  *neckState,
       *middleState,
       *bridgeState,
       *volState,
       *toneState,
       *presetsState,
       *autoState,
+      *states[];
+      */
+    static State  *neckState,
+      *middleState,
+      *bridgeState,
+      *autoState,
+      *presetsState,
+      *toneState,
+      *volState,
       *states[];
 
     static void init();

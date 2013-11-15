@@ -22,13 +22,17 @@ State *State::neckState,
   *State::states[7];
 
 void State::init(){
-  states[0] = neckState    =  new State();
-  states[1] = middleState  =  new State();
+  states[0] = neckState    =  new State(); 
+  states[1] = middleState  =  new State(); 
   states[2] = bridgeState  =  new State(2);
-  states[5] = volState     =  new State(5);
-  states[6] = toneState    =  new State(5);
-  states[3] = presetsState =  new State(3);
-  states[4] = autoState    =  new State();
+  states[3] = autoState    =  new State();
+  states[4] = presetsState =  new State(3);
+  states[5] = toneState    =  new State(5);
+  states[6] = volState     =  new State(5);
+  //states[5] = volState     =  new State(5);
+  //states[6] = toneState    =  new State(5);
+  //states[3] = presetsState =  new State(3);
+  //states[4] = autoState    =  new State();
   /*
     neckState;
     middleState,

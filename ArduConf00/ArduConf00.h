@@ -82,18 +82,23 @@ public:
     neckID = 0,
     middleID  = 1,
     bridgeID  = 2,
-    presetID  = 3,
-    autoID    = 4,
-    volID     = 5,
-    toneID    = 6,
-    powerID   = 7,
-    connectID = 8,
-    saveID    = 9,
+    autoID    = 3,
+    presetID  = 4,
+    toneID    = 5,
+    volID     = 6,
+    saveID    = 7,
+    //presetID  = 3,
+    //autoID    = 4,
+    //volID     = 5,
+    //toneID    = 6,
+    //powerID   = 7,
+    //connectID = 8,
+    //saveID    = 9,
     wordLen = 5; // a word is 5 chars, no terminator!
   static boolean mapExtID(byte extID, byte *result, boolean mapPreset = false);
   static byte bufLenNbSettings(byte confID, boolean settings = false);
   static boolean getMsg(byte confID, byte val, char *buf);
-  static byte bridgeState2LedVal(byte bridgeState);
+  static byte pickupState2LedVal(byte stateVal);
 };
 
 #endif

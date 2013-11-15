@@ -59,8 +59,6 @@ void ArduStomp::doPreset(){
   LEDManager::zeroAll();
   
   for (byte key=0; key<(PresetClass::nbKeys-2);key++){ // not the bridge key
-    //    byte confVal = p->presetValue(curPresetIndex,key),
-    // confID;
     byte confVal, 
       confID;
     p->presetValue(curPresetIndex,key,&confVal);
@@ -69,7 +67,7 @@ void ArduStomp::doPreset(){
       if (Actuator::allOK){
 	State::states[confID]->val=confVal;
 	// set state!!! here!!!!
-	LEDManager::set(confID,confVal);
+	LEDManager::set(confID, confID<2 ? ArduConf00::pickupState2LedVal(confVal) : confVal);
       }
     }
   } 
@@ -95,7 +93,7 @@ void ArduStomp::doPreset(){
   if (Actuator::allOK){
     State::states[ArduConf00::bridgeID]->val=bridgeStateVal;
     LEDManager::set(ArduConf00::bridgeID, 
-		    ArduConf00::bridgeState2LedVal(bridgeStateVal));
+		    ArduConf00::pickupState2LedVal(bridgeStateVal));
     State::states[ArduConf00::presetID]->val=curPresetIndex;
     LEDManager::set(ArduConf00::presetID,curPresetIndex+1);
   }
@@ -116,10 +114,9 @@ void ArduStomp::checkAuto(){
 }
 
 void ArduStomp::stepAlarm() {
-  LEDManager::zeroAll(true);
-  LEDManager::set(ArduConf00::powerID,1);
+  LEDManager::setAll();
   delay(ALARM_PAUSE);
-  LEDManager::set(ArduConf00::powerID,0);
+  LEDManager::zeroAll();
   delay(ALARM_PAUSE);
 }
 
