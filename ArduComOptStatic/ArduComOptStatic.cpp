@@ -7,7 +7,8 @@ boolean procReply(char *reply, char *sent, byte replySize){
   // otherwise, if any of the chars do not match the last sent, i.e. the top of the queue, 
   // then not ok.
   //ArduComOptStatic::msg("Received reply: ",reply,replySize);
-  msg("Received reply: ",reply,replySize);
+  // DEBUG 1 LINE
+  //msg("Received reply: ",reply,replySize);
   if(reply[0] == ARDUCOMOPTSTATIC_ERRORCHAR){
     return false;
   }
@@ -126,6 +127,7 @@ void ArduComOptStaticMaster::sendAtom(){
   if (q->pQ(sBuf)){
     port->write((byte*)sBuf,msgSize);
     // DEBUG: 7 lines
+    /*
     if(sBuf[0] !='0' && sBuf[0] !='1'){
       Serial.println("Sent BAD atom!");
       freeRam();
@@ -133,7 +135,8 @@ void ArduComOptStaticMaster::sendAtom(){
     }
     else{
       msg("Sent atom: ",sBuf,msgSize);
-    }  
+    } 
+    */
     atomAckedOnPort =false;
   }
 }
@@ -147,11 +150,13 @@ ArduComOptStaticMaster::ArduComOptStaticMaster(HardwareSerial *p,
 
 boolean ArduComOptStaticMaster::enqueueMsg(char *msg){
   // DEBUG: 7 lines
+  /*
   if(msg[0] !='0' && msg[0] !='1'){
     Serial.println("Enqd BAD msg!");
     freeRam();
     while(Serial.read()<0);
   }
+  */
   return q->enQ(msg);
 }
 

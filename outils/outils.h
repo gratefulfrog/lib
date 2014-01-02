@@ -6,8 +6,8 @@
 
 #include <Arduino.h>
 
-extern void freeRam(boolean force=false);
-extern void msg(char* str, char*, byte len);
-extern void checkRam();
+//extern void freeRam(boolean force=false);
+//extern void msg(char* str, char*, byte len);
+//extern void checkRam();
 
 #endif

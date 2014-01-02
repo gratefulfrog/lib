@@ -1,6 +1,5 @@
 #include "SDReader.h"
 
-
 void SDReader::skipHeaderLine(){
   // just read the chars of the first line and ignore them, 
   // set the file pointer to the 1st char of the 2nd line
@@ -160,6 +159,35 @@ byte PresetClass::firstLetter2Index(char c) const {
   }
   return ret;
 }
+
+void PresetClass::save(char *presetsFileName) {
+  SD.remove(presetsFileName);
+  /*
+    if (!(f = SD.open(presetsFileName,FILE_WRITE))){
+    //Serial.println("preset.save: open fail"); 
+    return false;
+  }
+  */  
+  char names[4][8] = {"\nRock\t","\nWoman\t","\nJazz\t", "\nComp\t"};
+  f = SD.open(presetsFileName,FILE_WRITE);
+  f.print("name\tvol\ttone\tneck\tmiddle\tbNorth\tbBoth");
+  for (byte i=0;i<NB_PRESETS;i++){
+    f.print(names[i]);
+    byte ind = firstLetter2Index(names[i][1]),
+      val;
+    for (byte k =0;k<nbKeys-1;k++){
+      presetValue(ind,k,&val);
+      f.print(int(val));
+      f.print('\t');
+    }
+    presetValue(ind,nbKeys-1,&val);
+    f.print(int(val));
+  }
+  f.print("\nAuto\t0\t0\t0\t0\t0\t0\n");
+  f.close();
+}
+	
+
 
 ////////////////////////////////////////
 ///  AutoClass Methods ////////////////

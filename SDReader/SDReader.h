@@ -8,6 +8,8 @@
  * DI to  pin 11 (UNO) or  MOSI (Micro)
  * CS to  pin 10
  */
+/* 2012 01 02 added save methods
+ */
 
 /*  This version parses the data and cycle files to create:
  * an array of 4 unsigned ints as presets
@@ -109,6 +111,7 @@ class PresetClass: public SDReader {
     byte preVal(unsigned int i, 
                 unsigned int mask, 
                 int shift) const;
+
   public:
     // use these keys to get values back
     const static byte volKey         = 0,
@@ -125,6 +128,7 @@ class PresetClass: public SDReader {
     void presetValue(byte presetIndex, byte key, byte *val, boolean set=false);
     boolean parse();
     byte firstLetter2Index(char c) const;
+    void save(char *presetsFileName);
 };
 
 // Auto Class stuff

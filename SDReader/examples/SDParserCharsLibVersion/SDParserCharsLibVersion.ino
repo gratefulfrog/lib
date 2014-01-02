@@ -5,7 +5,8 @@
 
 #include <SDReader.h>
 char pFile[] = "data.tsv",
-     aFile[] = "cycle.tsv";
+  aFile[] = "cycle.tsv",
+  sFile[] = "newdata.tsv";
      
 PresetClass *p;
 AutoClass   *a;
@@ -80,6 +81,9 @@ void setup(){
   for (byte i=0;i<4;i++){ // iterate over the 4 presets
     printPreset(i);
   }
+  // then save!
+  p->save(sFile);
+  Serial.println("Updated file saved");
 
   a = new AutoClass(aFile,p);
   Serial.print("auto file id: ");

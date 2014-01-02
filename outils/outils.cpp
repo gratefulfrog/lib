@@ -1,5 +1,5 @@
 #include <outils.h>
-
+/*
 void freeRam (boolean force){
   extern int __heap_start, *__brkval;
   int v;
@@ -12,7 +12,8 @@ void freeRam (boolean force){
   }
   //  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
-
+*/
+/*
 extern void msg(char* str, char *buf, byte len){
   bool something =false;
   if (sizeof(str)){
@@ -27,7 +28,8 @@ extern void msg(char* str, char *buf, byte len){
     Serial.println();
   }
 }
-
+*/
+/*
 void checkRam(){
   static long lastRamCheckTime = millis();
   const int freeRameCheckDelay = 10000;
@@ -37,3 +39,4 @@ void checkRam(){
     freeRam(true);
   }
 }  
+*/

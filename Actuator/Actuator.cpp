@@ -82,7 +82,7 @@ boolean Actuator::presetsAction(){
   //Serial.println(as->curPresetIndex);
   //LEDManager::set(confID,as->curPresetIndex);
   as->doPreset();
-  freeRam();
+  //freeRam();
   return true;
 }
  
@@ -122,6 +122,8 @@ boolean Actuator::saveAction(){
 		     &bBothVal,
 		     true);
   // then flash the leds!!
+  // save to sd card
+  as->p->save(PFILE);
   LEDManager::flashLeds();
   return true;
   
