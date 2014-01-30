@@ -177,7 +177,7 @@ void PresetClass::save(char *presetsFileName) {
       val;
     for (byte k =0;k<nbKeys-1;k++){
       presetValue(ind,k,&val);
-      f.print(int(val));
+      f.print(int(k<2? 2*val :val));  // correct 2014 01 30
       f.print('\t');
     }
     presetValue(ind,nbKeys-1,&val);
