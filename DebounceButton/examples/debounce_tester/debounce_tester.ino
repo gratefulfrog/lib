@@ -12,6 +12,7 @@
  * 2:  +5V
  * 3:  pin(7)
  * 4: 10K resistor to GND
+ * be sure to run the serial monitor at 115200 baud 
  */
 
 #define BUTTON_PIN (7)

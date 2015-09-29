@@ -6,7 +6,7 @@
 #ifndef ACTUATOR_H
 #define ACTUATOR_H
 
-#include <Arduiono.h>
+#include <Arduino.h>
 #include <DebounceButton.h>
 #include <State.h>
 #include <ArduConf00.h>

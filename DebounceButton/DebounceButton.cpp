@@ -3,26 +3,6 @@
  */
 
 #include <DebounceButton.h>
-/*
-class DebounceButton {
-private:
-  byte buttonPin,
-    buttonState,     // = LOW,   // the current reading from the input pin
-    lastButtonState; // = LOW;   // the previous reading from the input pin
-  // the following variables are long's because the time, 
-  //measured in miliseconds,
-  // will quickly become a bigger number than can be stored in an int.
-  
-  long lastDebounceTime;  //  = 0;  // the last time the output pin was toggled
-  static const byte debounceDelay = DEBOUNCEDELAY;    
-  // the debounce time; increase if the output flickers
-  
- public:
-  deBounceButton(byte pin);
-  boolean pressed();  
-};
-*/
-
 
 DebounceButton::DebounceButton(byte pin){
   buttonPin = pin;
@@ -46,16 +26,13 @@ boolean DebounceButton::pressed(){
   if (reading != lastButtonState) {
     lastDebounceTime = millis();
   } 
-  
   if ((millis() - lastDebounceTime) > debounceDelay) {
     if (reading != buttonState) {
       buttonState = reading;
-      //ret = (buttonState == LOW) && (lastButtonState == HIGH);
       ret = (buttonState == HIGH);
     }
   }
   lastButtonState = reading;
-  
   return  ret;
 }
 
