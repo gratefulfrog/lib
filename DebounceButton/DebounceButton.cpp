@@ -19,7 +19,7 @@ boolean DebounceButton::pressed(){
    * if the previous state was HIGH, and current is LOW
    * then return value is TRUE, false otherwise.
    * set the last button state to the temp reading
-   */
+   */ 
 
   byte reading = digitalRead(buttonPin);
   boolean ret = false;
